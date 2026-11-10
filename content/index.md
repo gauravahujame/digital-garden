@@ -7,35 +7,35 @@ This is a digital garden: a set of linked notes that grow over time. These aren'
 > [!tip] How to read this place
 > Follow the links rather than reading top to bottom. Each note carries a status tag so you know how much weight to give it:
 >
-> - 🌱 **#seedling**: a rough idea, recently planted
-> - 🌿 **#budding**: taking shape, still being revised
-> - 🌳 **#evergreen**: fairly settled, revisited now and then
+> - 🌱 **[[tags/seedling|Seedling]]**: a rough idea, recently planted
+> - 🌿 **[[tags/budding|Budding]]**: taking shape, still being revised
+> - 🌳 **[[tags/evergreen|Evergreen]]**: fairly settled, revisited now and then
 
 ## Where to start
 
 - [[ideas/Digital gardens|What is a digital garden?]] explains why this site isn't a blog.
-- [[ideas/Evergreen notes]] covers the note-writing practice behind it.
-- [[ideas/Gall's law]] is about why working systems start small.
+- [[ideas/Evergreen notes|Evergreen notes]] covers the note-writing practice behind it.
+- [[ideas/Gall's law|Gall's law]] is about why working systems start small.
 
 ## Sections
 
 ### 🧠 Ideas
 How to think, write, and build.
-- [[ideas/Digital gardens]]
-- [[ideas/Evergreen notes]]
-- [[ideas/Zettelkasten]]
-- [[ideas/Gall's law]]
+- [[ideas/Digital gardens|Digital gardens]]
+- [[ideas/Evergreen notes|Evergreen notes]]
+- [[ideas/Zettelkasten|Zettelkasten]]
+- [[ideas/Gall's law|Gall's law]]
 
 ### 🛠️ Tech
 Software design and the tools I use every day.
-- [[tech/Deep modules]]
-- [[tech/Dotfiles are a living document]]
-- [[tech/Home automation should be boring]]
+- [[tech/Deep modules|Deep modules]]
+- [[tech/Dotfiles are a living document|Dotfiles are a living document]]
+- [[tech/Home automation should be boring|Home automation should be boring]]
 
 ### 🎵 Music
 The math and code behind sound.
-- [[music/Why twelve notes]]
-- [[music/Live coding music]]
+- [[music/Why twelve notes|Why twelve notes]]
+- [[music/Live coding music|Live coding music]]
 
 ## How the notes connect
 

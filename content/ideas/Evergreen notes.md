@@ -17,7 +17,7 @@ Each note covers one idea, and covers it completely. If a note is about two thin
 Organize notes by **concept**, not by source or project. A note called "Notes on *Thinking, Fast and Slow*" is a dead end. A note called "Intuition is fast but overconfident" can be linked from ten different places.
 
 ### Densely linked
-The value is in the connections. When writing a note, ask: *what does this remind me of?* Then link it. This garden tries to do the same, for example by connecting [[ideas/Gall's law]] to [[tech/Deep modules]].
+The value is in the connections. When writing a note, ask: *what does this remind me of?* Then link it. This garden tries to do the same, for example by connecting [[ideas/Gall's law|Gall's law]] to [[tech/Deep modules|Deep modules]].
 
 ### Titles as claims
 A good title states the idea instead of naming the topic:
@@ -43,5 +43,5 @@ flowchart LR
 
 ## Related
 
-- [[ideas/Zettelkasten]] is the older, analog version of this idea.
-- [[ideas/Digital gardens]] are what happens when you publish your evergreen notes.
+- [[ideas/Zettelkasten|Zettelkasten]] is the older, analog version of this idea.
+- [[ideas/Digital gardens|Digital gardens]] are what happens when you publish your evergreen notes.

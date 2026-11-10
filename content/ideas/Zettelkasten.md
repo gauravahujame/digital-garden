@@ -27,7 +27,7 @@ This is also why folders on their own are a weak way to organize knowledge. An i
 ## Modern descendants
 
 - Obsidian, Logseq, and Roam use `[[wikilinks]]` as the digital version of card IDs.
-- [[ideas/Evergreen notes]] restate the same principles for a digital, searchable world.
+- [[ideas/Evergreen notes|Evergreen notes]] restate the same principles for a digital, searchable world.
 - This [[ideas/Digital gardens|digital garden]] is a public, browsable slip box.
 
 > [!warning] Common trap

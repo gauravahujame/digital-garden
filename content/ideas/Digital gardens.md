@@ -27,13 +27,13 @@ Most of the web became stream. A garden pushes back on that by valuing connectio
 | Value comes from | Individual posts | The links between notes |
 
 > [!note] Learning in public
-> Publishing half-formed ideas feels uncomfortable at first. The status tags (#seedling, #budding, #evergreen) help: they tell readers how much confidence to place in a note, so a rough note doesn't have to pretend to be finished.
+> Publishing half-formed ideas feels uncomfortable at first. The status tags ([[tags/seedling|seedling]], [[tags/budding|budding]], [[tags/evergreen|evergreen]]) help: they tell readers how much confidence to place in a note, so a rough note doesn't have to pretend to be finished.
 
 ## Why bother?
 
-1. **Writing is thinking.** You don't fully know what you think until you try to explain it. See [[ideas/Evergreen notes]].
-2. **Links compound.** One note is worth little. A hundred densely linked notes start to surface ideas you didn't plan, much like a [[ideas/Zettelkasten]].
-3. **Low pressure.** A garden can start with a single seedling, which fits [[ideas/Gall's law]]: start small, keep it working, let it grow.
+1. **Writing is thinking.** You don't fully know what you think until you try to explain it. See [[ideas/Evergreen notes|Evergreen notes]].
+2. **Links compound.** One note is worth little. A hundred densely linked notes start to surface ideas you didn't plan, much like a [[ideas/Zettelkasten|Zettelkasten]].
+3. **Low pressure.** A garden can start with a single seedling, which fits [[ideas/Gall's law|Gall's law]]: start small, keep it working, let it grow.
 
 ## Further reading
 

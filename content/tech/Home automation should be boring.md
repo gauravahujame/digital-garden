@@ -19,7 +19,7 @@ The best smart home is one nobody in the house notices. If people have to think 
 2. **Local first.** Prefer devices that work without a vendor's cloud (Zigbee, Z-Wave, Matter over Thread). Cloud services get shut down. Your light switch shouldn't depend on a company's business model.
 3. **Automate around presence and time, not commands.** Lights that come on at sunset or when someone arrives beat lights you ask for.
 4. **Fail toward normal.** If a sensor dies, the room should behave like a normal room, not stay dark or keep the heating on.
-5. **Change one thing at a time.** A home is a complex system that has to keep working while you change it, which is [[ideas/Gall's law]] in action.
+5. **Change one thing at a time.** A home is a complex system that has to keep working while you change it, which is [[ideas/Gall's law|Gall's law]] in action.
 
 ## Good first automations
 

@@ -46,4 +46,4 @@ stack(
 - **Algorave culture.** People dancing to music made from code, with the code projected on the wall.
 
 > [!todo] Seedling
-> Next: try a pattern built on just-intonation ratios instead of equal temperament. See [[music/Why twelve notes]] for why they sound different.
+> Next: try a pattern built on just-intonation ratios instead of equal temperament. See [[music/Why twelve notes|Why twelve notes]] for why they sound different.

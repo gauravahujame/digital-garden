@@ -48,5 +48,5 @@ Five calls. Behind them sit directory lookup, permissions, caching, disk schedul
 
 - **Information hiding.** Each module should own a design decision and keep it secret.
 - **"Classitis".** Lots of tiny classes look clean but add interface cost everywhere.
-- [[ideas/Gall's law]]: grow working systems by deepening what exists, not by adding layers.
-- [[ideas/Evergreen notes]] are deep modules for ideas: a short claim title on top, a lot of thinking underneath.
+- [[ideas/Gall's law|Gall's law]]: grow working systems by deepening what exists, not by adding layers.
+- [[ideas/Evergreen notes|Evergreen notes]] are deep modules for ideas: a short claim title on top, a lot of thinking underneath.

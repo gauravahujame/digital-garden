@@ -54,4 +54,4 @@ That's about 1.96 cents flat of a pure $3:2$, small enough that most listeners d
 > [!info] Takeaway
 > 12 notes is what you get when you want pure octaves, nearly pure fifths, and a keyboard a human can play.
 
-Related: [[music/Live coding music]], where these note numbers become code.
+Related: [[music/Live coding music|Live coding music]], where these note numbers become code.

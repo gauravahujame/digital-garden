@@ -19,7 +19,7 @@ Big up-front designs fail because each component makes assumptions about the oth
 
 - **The World Wide Web** began as a few HTML pages on a single NeXT machine at CERN.
 - **Linux** was announced in 1991 as "just a hobby, won't be big and professional".
-- **This garden** started with one page. See [[ideas/Digital gardens]].
+- **This garden** started with one page. See [[ideas/Digital gardens|Digital gardens]].
 
 ## Applying it
 
@@ -28,6 +28,6 @@ Big up-front designs fail because each component makes assumptions about the oth
 3. Grow it based on what actually breaks, not what you imagine will break.
 
 This connects to:
-- [[tech/Deep modules]]: once something works, deepen its modules instead of adding more surface area.
-- [[tech/Home automation should be boring]]: a smart home is a complex system that has to keep working while you change it.
-- [[tech/Dotfiles are a living document]]: a perfect config doesn't come from a single setup session.
+- [[tech/Deep modules|Deep modules]]: once something works, deepen its modules instead of adding more surface area.
+- [[tech/Home automation should be boring|Home automation should be boring]]: a smart home is a complex system that has to keep working while you change it.
+- [[tech/Dotfiles are a living document|Dotfiles are a living document]]: a perfect config doesn't come from a single setup session.

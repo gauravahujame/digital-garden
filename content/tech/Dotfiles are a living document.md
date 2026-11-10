@@ -47,9 +47,9 @@ stow zsh git nvim   # creates the symlinks in $HOME
 1. **Comment the why, not the what.** `# disable because it breaks tmux copy mode` is useful a year later. `# set option` is not.
 2. **Delete aggressively.** If you don't remember what a line does, remove it and see what breaks.
 3. **Never commit secrets.** Load tokens from a password manager or a git-ignored `~/.secrets` file.
-4. **Start small.** Copying someone's 2,000-line config breaks [[ideas/Gall's law]]. Borrow one idea at a time.
+4. **Start small.** Copying someone's 2,000-line config breaks [[ideas/Gall's law|Gall's law]]. Borrow one idea at a time.
 
 > [!tip] Keep startup fast
 > Run `time zsh -i -c exit` occasionally. If shell startup creeps past a few hundred milliseconds, lazy-load the slow parts (version managers are the usual culprits).
 
-Related: [[tech/Deep modules]]. A good alias or function is a tiny deep module: one short name that hides a long command.
+Related: [[tech/Deep modules|Deep modules]]. A good alias or function is a tiny deep module: one short name that hides a long command.
