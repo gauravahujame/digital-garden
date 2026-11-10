@@ -1,0 +1,234 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+#
+# Look: Flexoki theme (warm paper / ink) + Fraunces, Inter and JetBrains Mono.
+# Visual styling comes from @quartz-themes/core and quartz-fonts below.
+# `configuration.theme` mirrors the same palette and fonts so that generated
+# assets (social images, fallbacks) match the site.
+# Plugin options are only listed where they differ from the plugin defaults.
+
+configuration:
+  pageTitle: Gaurav's Garden
+  pageTitleSuffix: " · Gaurav's Garden"
+  enableSPA: true
+  enablePopovers: true
+  locale: en-US
+  baseUrl: gauravahujame.github.io/quartz
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+  theme:
+    fontOrigin: googleFonts
+    cdnCaching: true
+    typography:
+      header: Fraunces
+      body: Inter
+      code: JetBrains Mono
+    colors: # Flexoki palette, https://stephango.com/flexoki
+      lightMode:
+        light: "#FFFCF0" # paper
+        lightgray: "#E6E4D9" # base-100
+        gray: "#B7B5AC" # base-300
+        darkgray: "#403E3C" # base-800
+        dark: "#100F0F" # black
+        secondary: "#24837B" # cyan-600
+        tertiary: "#BC5215" # orange-600
+        highlight: rgba(36, 131, 123, 0.10)
+        textHighlight: "#F6E2A088" # yellow-100
+      darkMode:
+        light: "#100F0F" # black
+        lightgray: "#282726" # base-900
+        gray: "#575653" # base-700
+        darkgray: "#CECDC3" # base-200
+        dark: "#E6E4D9" # base-100
+        secondary: "#3AA99F" # cyan-400
+        tertiary: "#DA702C" # orange-400
+        highlight: rgba(58, 169, 159, 0.12)
+        textHighlight: "#AD8301AA" # yellow-600
+
+plugins:
+  # ── Look and feel ─────────────────────────────────────────────
+  - source: "@quartz-themes/core"
+    enabled: true
+    options:
+      theme: flexoki
+      mode: both
+      calloutStyle: glass
+  - source: "@quartz-community/quartz-fonts"
+    enabled: true
+    options:
+      useThemeFonts: false
+      title: { name: Fraunces, weights: [600] }
+      header: { name: Fraunces, weights: [500, 600, 700] }
+      body: { name: Inter, weights: [400, 500, 600], includeItalic: true }
+      code: { name: JetBrains Mono, weights: [400, 500] }
+
+  # ── Markdown processing ───────────────────────────────────────
+  - source: "@quartz-community/note-properties"
+    enabled: true
+    options:
+      hidePropertiesView: true # tags are shown by tag-list instead
+  - source: "@quartz-community/created-modified-date"
+    enabled: true
+  - source: "@quartz-community/syntax-highlighting"
+    enabled: true
+    options:
+      theme:
+        light: vitesse-light
+        dark: vitesse-dark
+  - source: "@quartz-community/obsidian-flavored-markdown"
+    enabled: true
+    options:
+      parseArrows: true
+      enableCheckbox: true
+  - source: "@quartz-community/github-flavored-markdown"
+    enabled: true
+  - source: "@quartz-community/unlisted-pages"
+    enabled: true
+  - source: "@quartz-community/table-of-contents"
+    enabled: true
+    layout:
+      position: right
+      priority: 30
+  - source: "@quartz-community/crawl-links"
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+  - source: "@quartz-community/description"
+    enabled: true
+  - source: "@quartz-community/latex"
+    enabled: true
+  - source: "@quartz-community/hard-line-breaks"
+    enabled: true
+  - source: "@quartz-community/obsidian-plugin-excalidraw"
+    enabled: true
+
+  # ── Filters ───────────────────────────────────────────────────
+  - source: "@quartz-community/remove-draft"
+    enabled: true
+  - source: "@quartz-community/encrypted-pages"
+    enabled: true
+
+  # ── Pages and output ──────────────────────────────────────────
+  - source: "@quartz-community/content-page"
+    enabled: true
+  - source: "@quartz-community/folder-page"
+    enabled: true
+  - source: "@quartz-community/tag-page"
+    enabled: true
+  - source: "@quartz-community/canvas-page"
+    enabled: true
+  - source: "@quartz-community/bases-page"
+    enabled: true
+  - source: "@quartz-community/alias-redirects"
+    enabled: true
+  - source: "@quartz-community/content-index"
+    enabled: true
+  - source: "@quartz-community/favicon"
+    enabled: true
+  - source: "@quartz-community/og-image"
+    enabled: true
+  - source: "@quartz-community/cname"
+    enabled: true
+
+  # ── Left sidebar ──────────────────────────────────────────────
+  - source: "@quartz-community/page-title"
+    enabled: true
+  - source: "@quartz-community/search"
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+      group: toolbar
+      groupOptions:
+        grow: true
+  - source: "@quartz-community/spacer"
+    enabled: true
+    layout:
+      position: left
+      priority: 25
+      display: mobile-only
+  - source: "@quartz-community/darkmode"
+    enabled: true
+    layout:
+      position: left
+      priority: 30
+      group: toolbar
+  - source: "@quartz-community/reader-mode"
+    enabled: true
+    layout:
+      position: left
+      priority: 35
+      group: toolbar
+  - source: "@quartz-community/explorer"
+    enabled: true
+    options:
+      title: Garden
+      folderDefaultState: open
+      folderClickBehavior: collapse
+
+  # ── Above the article ─────────────────────────────────────────
+  - source: "@quartz-community/breadcrumbs"
+    enabled: true
+    options:
+      spacerSymbol: "/"
+      rootName: Garden
+    layout:
+      position: beforeBody
+      priority: 5
+      condition: not-index
+  - source: "@quartz-community/article-title"
+    enabled: true
+  - source: "@quartz-community/content-meta"
+    enabled: true
+  - source: "@quartz-community/tag-list"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 30
+      condition: has-tags
+
+  # ── Right sidebar ─────────────────────────────────────────────
+  - source: "@quartz-community/graph"
+    enabled: true
+    options:
+      localGraph:
+        depth: 2
+        linkDistance: 40
+        focusOnHover: true
+  - source: "@quartz-community/backlinks"
+    enabled: true
+    layout:
+      position: right
+      priority: 50
+
+  # ── Footer ────────────────────────────────────────────────────
+  - source: "@quartz-community/footer"
+    enabled: true
+    options:
+      links:
+        GitHub: https://github.com/gauravahujame
+        RSS: https://gauravahujame.github.io/quartz/index.xml
+
+layout:
+  groups:
+    toolbar:
+      priority: 35
+      direction: row
+      gap: 0.5rem
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    folder:
+      exclude:
+        - reader-mode
+      positions:
+        right: []
+    tag:
+      exclude:
+        - reader-mode
+      positions:
+        right: []

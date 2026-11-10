@@ -1,3 +1,144 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// Finishing touches on top of the Flexoki theme (see quartz.config.yaml).
+// Kept small on purpose: the theme does the heavy lifting.
+
+// ── Accent colours as plain hex ─────────────────────────────────
+// The theme derives accents with `hsl(calc(...))`, which Mermaid and the graph
+// can't parse ("Unsupported color format"). Pin them to Flexoki hex values.
+// The theme declares these on `:root:root[saved-theme]`; one more `:root`
+// makes these win regardless of stylesheet order.
+:root:root:root[saved-theme="light"] {
+  --color-accent: #24837b; // cyan-600
+  --color-accent-1: #2f968d; // cyan-500
+  --color-accent-2: #3aa99f; // cyan-400
+  --secondary: #24837b;
+  --tertiary: #bc5215; // orange-600
+  --highlight: rgba(36, 131, 123, 0.1);
+}
+
+:root:root:root[saved-theme="dark"] {
+  --color-accent: #3aa99f; // cyan-400
+  --color-accent-1: #5abdac; // cyan-300
+  --color-accent-2: #87d3c3; // cyan-200
+  --secondary: #3aa99f;
+  --tertiary: #da702c; // orange-400
+  --highlight: rgba(58, 169, 159, 0.12);
+}
+
+// ── Explorer: don't scroll the page on first load ───────────────
+// The explorer calls scrollIntoView() on the active note when there is no
+// saved scroll position, which scrolls the whole window. A large scroll
+// margin keeps the window at the top while the item is already on screen.
+.explorer .active {
+  scroll-margin-top: 100vh;
+}
+
+// ── Reading rhythm ──────────────────────────────────────────────
+article {
+  line-height: 1.7;
+  font-feature-settings:
+    "cv11" 1,
+    "ss01" 1; // Inter: single-storey a, open digits
+}
+
+article > p,
+article > ul,
+article > ol,
+article > blockquote {
+  max-width: 68ch;
+}
+
+// ── Headings: Fraunces, tighter and more editorial ─────────────
+h1,
+h2,
+h3,
+.article-title {
+  letter-spacing: -0.02em;
+  font-variation-settings:
+    "opsz" 72,
+    "SOFT" 50;
+}
+
+.article-title {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  letter-spacing: -0.03em;
+}
+
+// The Flexoki theme styles links with `:root[saved-theme] body a.internal-link`
+// and tints them with its yellow highlight colour. These selectors are one
+// step more specific so the overrides below win without `!important`.
+
+// ── Links: quiet by default, animated underline on hover ───────
+:root[saved-theme] body article a.internal-link:not(.tag-link) {
+  background-color: transparent;
+  padding: 0;
+  color: var(--secondary);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+
+  &:hover {
+    color: var(--tertiary);
+    text-decoration-color: var(--tertiary);
+  }
+}
+
+// ── Tags as soft pills ──────────────────────────────────────────
+:root[saved-theme] body a.internal-link.tag-link {
+  --pill-background: color-mix(in srgb, var(--secondary) 12%, transparent);
+  --pill-background-hover: color-mix(in srgb, var(--tertiary) 18%, transparent);
+  --pill-color: var(--secondary);
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.85em;
+  background-color: var(--pill-background);
+
+  &:hover {
+    background-color: var(--pill-background-hover);
+    color: var(--tertiary);
+  }
+}
+
+// ── Media and code: rounded corners ─────────────────────────────
+article img,
+article video,
+article pre,
+article .mermaid,
+article table {
+  border-radius: 12px;
+}
+
+article img {
+  box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.25);
+}
+
+// ── Popovers (link previews): frosted card ──────────────────────
+.popover > .popover-inner {
+  border-radius: 14px;
+  border: 1px solid var(--lightgray);
+  box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.35);
+  backdrop-filter: blur(14px);
+}
+
+// ── Text selection in the accent colour ─────────────────────────
+::selection {
+  background: color-mix(in srgb, var(--secondary) 25%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
