@@ -6,50 +6,81 @@ description: UI design language for the Quartz garden (tokens, type roles, compo
 
 # UI design language
 
-The look is the Flexoki theme with a custom type system (Mackinac headings, light Bricolage text) and navy/gray light-mode inks layered on top.
+Flexoki theme surfaces, a custom type system (Mackinac headings, light Bricolage text), navy/gray inks and a single purple accent. Everything below is implemented in `quartz/styles/custom.scss`; keep the two in sync.
 
 ## Where styling lives
 
 | Concern | File |
 |---|---|
-| Theme, palette for generated assets (og images), font variables | `quartz.config.yaml` (`@quartz-themes/core` flexoki, `quartz-fonts`, `configuration.theme`) |
+| Theme, font variables, palette for generated assets (og images) | `quartz.config.yaml` (`@quartz-themes/core` flexoki, `quartz-fonts`, `configuration.theme`) |
 | Font loading (`<link>` tags) | `quartz/components/Head.tsx` |
-| Every visual override | `quartz/styles/custom.scss` |
+| Tokens and every visual override | `quartz/styles/custom.scss` |
 
-Do not add other style files. `configuration.theme.typography` must name Google fonts (og-image fetches them), so it keeps Fraunces as header; the site itself never shows Fraunces.
+- Do not add other style files.
+- `configuration.theme.colors` mirrors the tokens (`dark` = `--ink`, `darkgray` = `--ink-text`, `secondary` = `--accent`, `tertiary` = `--accent-strong`, `highlight` = `--highlight`). Change both together.
+- `configuration.theme.typography` must name Google fonts (og-image fetches them), so it keeps Fraunces as header; the site never shows Fraunces.
 
 ## Principles
 
-1. **Weight and size follow the text's role**, not one weight everywhere (see Type roles).
-2. **Tokens, not literals.** Colours come from the `--ink-*` / callout / accent variables. Add a variable before adding a new colour.
-3. **Mobile-first.** Plain value for phones, then step up at `$bp-sm` / `$bp-lg`.
-4. **Override the theme by specificity, never `!important`** (the only `!important` is the reduced-motion reset).
-5. **Light mode uses navy/gray inks; dark mode uses Flexoki tones in the same light-to-dark order.**
+1. **Weight and size follow the text's role** (see Type).
+2. **Tokens, not literals.** Components use only the tokens below. Add a token before adding a new colour, radius, shadow or blur. Literals are allowed only inside token definitions and as `none`/`0` resets.
+3. **One accent: purple.** Links (hover), tags, selection, explorer, graph and theme accents all use `--accent`. Callout types keep the theme's own icon colours; `==highlight==` marks keep the config's yellow `textHighlight`.
+4. **Mobile-first.** Plain value for phones, then step up at `$bp-sm` / `$bp-lg`.
+5. **Override the theme by specificity, never `!important`** (only the reduced-motion reset uses it).
+6. **Both modes share one mapping.** Only raw token values differ per mode; light uses navy/gray inks, dark uses Flexoki base tones in the same order.
 
 ## Tokens
 
-### Colour
+### Colour (per mode)
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--ink-strong` | `#191034` | `#f2f0e5` | h2–h6, bold, inline code text |
-| `--ink` | `#22183c` | `#e6e4d9` | title, lead, links, bullets, breadcrumbs |
-| `--ink-text` | `#4c4e67` | `#b7b5ac` | body text |
-| `--ink-muted` | `#676b89` | `#878580` | footer, secondary text |
-| `--ink-faint` | `#9698b6` | `#6f6e69` | uppercase labels (date, reading time) |
+| `--ink-strong` | `#191034` | `#f2f0e5` | h2–h6, bold, inline code |
+| `--ink` | `#22183c` | `#e6e4d9` | title, lead, links, bullets, breadcrumbs, overlay controls |
+| `--ink-text` | `#4c4e67` | `#b7b5ac` | body text, page chrome |
+| `--ink-muted` | `#676b89` | `#878580` | footer, hints |
+| `--ink-faint` | `#9698b6` | `#6f6e69` | uppercase labels |
 | `--ink-caption` | `#73739c` | `#878580` | figcaptions |
-| `--ink-violet` | `#7c3aed` | `#a699d0` | link hover |
-| `--callout-text` / `-border` / `-shadow` | violet-tinted rgba | | callout card |
+| `--accent` | `#7c3aed` | `#a699d0` | the accent |
+| `--accent-strong` | `#6d28d9` | `#c4b9e0` | accent hover |
+| `--accent-1`, `--accent-2` | `#8b5cf6`, `#a78bfa` | `#8b7ec8`, `#c4b9e0` | theme accent variants |
+| `--highlight` | accent 10% | accent 12% | theme highlight (rgba; the graph reads it) |
+| `--line` | `rgba(91,33,182,.12)` | `rgba(166,153,208,.18)` | card and panel borders |
+| `--shadow-tint` | `rgba(91,33,182,.075)` | `rgba(0,0,0,.3)` | tint inside card/overlay shadows |
+| `--callout-text` | `rgba(40,25,80,.7)` | `rgba(230,228,217,.75)` | callout body |
 | `--inline-code-bg` | `rgba(231,230,244,.4)` | `rgba(166,153,208,.12)` | inline code |
-| `--secondary` | cyan-600 `#24837b` | cyan-400 `#3aa99f` | tag pills, selection, graph |
-| `--tertiary` | orange-600 `#bc5215` | orange-400 `#da702c` | tag pill hover |
-| `--color-accent`, `-1`, `-2` | cyan 600/500/400 | cyan 400/300/200 | theme accents |
-| `--light`, `--lightgray` | Flexoki paper / base-100 | black / base-900 | page and card surfaces, hairlines |
 
-- Accents must stay **plain hex**. The theme's `hsl(calc(...))` breaks Mermaid and the graph.
-- Translucent variants use `color-mix(in srgb, <token> N%, transparent)`: 30% underlines, 25% scrollbar thumb and selection, 12% pill fill, 18% pill hover.
-- Code blocks are dark in both modes: `#121226` background, `#fff` text, Shiki `--shiki-dark` token colours (vitesse-dark).
-- Light mode also maps the tokens onto theme/Quartz variables (`--dark`, `--darkgray`, `--text-*`, `--bold-color`, `--h*-color`). Dark mode does not (see Open inconsistencies).
+Theme/Quartz variables mapped from these in both modes: `--color-accent*`, `--secondary` (accent), `--tertiary` (accent-strong), `--dark`, `--darkgray`, `--text-normal/-muted/-faint`, `--bold-color`, `--inline-title-color`, `--h1-color`…`--h6-color`. Surfaces `--light` / `--lightgray` come from the theme.
+
+Accents must be plain hex or rgba: the theme's `hsl(calc(...))` breaks Mermaid and the graph, and so would `color-mix` in variables the graph reads.
+
+### Colour (mode-independent)
+
+| Token | Value | Use |
+|---|---|---|
+| `--line-subtle` | ink 10% | dividers inside a card |
+| `--hover-fill` | ink 7% | hovered rows |
+| `--scrollbar` | ink 25% | scrollbar thumb everywhere |
+| `--code-bg`, `--code-text` | `#121226`, `#fff` | code blocks (dark in both modes) |
+| `--code-scrollbar` | white 25% | code block scrollbar |
+| `--backdrop` | `rgb(0 0 0 / .3)` | page dimming behind search and the graph |
+
+Inline translucency uses `color-mix(in srgb, <token> N%, transparent)`: 30% link underline, 25% selection, 12% tag fill, 18% tag hover fill.
+
+### Shape, elevation, blur
+
+| Token | Value | Use |
+|---|---|---|
+| `--radius-card` | 16px | callouts, code blocks, popovers, search panel, graph box |
+| `--radius-media` | 12px | images, video, Mermaid, tables |
+| `--radius-inner` | 8px | rows inside a card (card radius minus 8px padding) |
+| `--radius-pill` | 999px | tags, close button, hint, scrollbar thumb |
+| `--shadow-card` | `0 10px 15px -3px`, `0 4px 6px -4px` in tint | callouts |
+| `--shadow-media` | `0 8px 30px -12px` black 25% | images |
+| `--shadow-overlay` | `0 30px 60px -20px` black 35% + `0 10px 20px -10px` tint | popovers, search panel, graph box |
+| `--blur` | 12px | popover card and both backdrops |
+
+Borders are always `1px solid var(--line)`.
 
 ### Fonts
 
@@ -59,94 +90,80 @@ Do not add other style files. `configuration.theme.typography` must name Google 
 | `--bodyFont` (also `--font-interface`) | Bricolage Grotesque, variable `opsz,wdth,wght` | everything else |
 | `--codeFont` | `ui-monospace, SFMono-Regular, "Fragment Mono", Menlo, monospace` | code |
 
-Global settings on `body`: `font-variation-settings: "opsz" 24` (reset to `normal` on code), `-webkit-font-smoothing: antialiased`, `text-wrap: wrap`.
+On `body`: `font-variation-settings: "opsz" 24` (`normal` on code), `-webkit-font-smoothing: antialiased`, `text-wrap: wrap`.
 
-### Weights
+### Weights and width
 
-| Weight | Role |
-|---|---|
-| 325 | reading text (body, lists, callout text, code) |
-| 450 | UI text (sidebar, explorer, breadcrumbs, captions, tag pills); `--nav-item-weight` |
-| 500 | headings (Mackinac), lead, bold, callout titles |
-| 575 | small uppercase labels |
+| Weight | Stretch | Role |
+|---|---|---|
+| 325 | 98.5% | reading text: body, lists, callout text, code |
+| 450 | 98% | UI text: sidebar, explorer, breadcrumbs, captions, tags, search input, hints (`--nav-item-weight`) |
+| 500 | 98% | Mackinac headings and titles, lead, bold, callout titles |
+| 575 | 97.5% | small uppercase labels |
 
-Italics inherit weight. Nothing in the design uses 600 or more; the theme's base `a` weight of 600 is overridden wherever it shows.
-
-### Width (`font-stretch`)
-
-98.5% body/reading text, 98% UI text, bold, lead, captions, callout titles, 97.5% uppercase labels.
+Italics inherit weight. Nothing uses 400 or 600+.
 
 ### Type scale
 
-| Role | < 640px | ≥ 640px | Line height | Tracking |
-|---|---|---|---|---|
-| Article title | 30px | 36px, 44px at ≥ 1024px | 1.25 | -0.025em / word +0.025em |
-| h2 | 24px | 30px | 1.325 | -0.025em / word +0.025em |
-| h3 | 20.5px | 24px | 1.6 → 1.325 | same |
-| h4 | 20.5px | 20.5px | 1.325 | same |
-| h5, h6 | 18px | 18px | 1.325 | same |
-| Lead | 20.5px | 20.5px | 1.6 | -0.025em |
-| Body, lists | 16px | 19px | 1.625 → 1.6 | normal |
-| Callout text, code block | 16px | 16px | 1.5 / 1.6 | normal |
-| Breadcrumbs | 14.5px | 14.5px | | |
-| Labels, captions, footer | 12px | 12px | 1.6 | labels +0.05em uppercase |
-| Inline code, tag pills | 0.9em / 0.85em | | | |
+| Role | < 640px | ≥ 640px | Line height |
+|---|---|---|---|
+| Article title | 30px | 36px; 44px at ≥ 1024px | 1.25 |
+| h2 | 24px | 30px | 1.325 |
+| h3 | 20.5px | 24px | 1.325 |
+| h4 | 18px | 20.5px | 1.325 |
+| h5, h6 | 16px | 19px | 1.325 |
+| Lead | 20.5px | 20.5px | 1.6 |
+| Body, lists, search input | 16px | 19px | 1.625 → 1.6 |
+| Callout text, callout title, code block, search result title | 16px | 16px | 1.5 (callout), 1.6 (code) |
+| Breadcrumbs | 14.5px | 14.5px | |
+| Labels, captions, footer, hints | 12px | 12px | 1.6 |
+| Inline code / tags | 0.9em / 0.85em | | |
 
-Headings: tracking is negative, word-spacing gives it back. Page title uses -0.03em.
+- Popover title uses 30px. The graph's "×" glyph uses 24px.
+- All Mackinac text (page title, article title, headings) uses `letter-spacing: -0.025em` with `word-spacing: 0.025em`. Lead: -0.025em. Labels: +0.05em uppercase. Bold: -0.005em.
 
-### Spacing (rem)
+### Spacing
 
 | Value | Use |
 |---|---|
-| 0.2em | list item gap, list pulled up toward the paragraph above (-0.2em) |
-| 0.75 | under the article title, under callout titles |
-| 1.25 | paragraph/list bottom margin |
-| 1.5 | popover padding, gap between breadcrumbs and title |
-| 0.75 | under headings |
-| 2 | padding of code blocks |
-| 1.25 / 1.5 | padding of callouts (vertical / horizontal) |
-| 1.75 / 2 | above / below tables (on `.table-container`) |
-| 2.5 | above/below code blocks and callouts |
-| 2.5 → 3 (≥ 640px) | above headings; 0 when first child |
+| 0.2em | list item gap; lists pulled up by -0.2em |
+| 0.75rem | under article title, headings and callout titles; between blocks in a callout |
+| 1rem | under breadcrumbs; date–title gap in note lists |
+| 1.25rem | under paragraphs, lists and the lead |
+| 1.25 × 1.5rem | callout padding |
+| 1.5rem | popover padding |
+| 2rem | code block padding |
+| 1.75 / 2rem | above / below tables |
+| 2.5rem | above/below code blocks and callouts |
+| 2.5 → 3rem (≥ 640px) | above headings; 0 when first child |
 
 ### Layout
 
-- Breakpoints: `$bp-sm: (min-width: 640px)`, `$bp-lg: (min-width: 1024px)`. Use these, not Quartz's 800px variables, for anything typographic.
-- Text column: `max-width: 44rem` on `p, ul, ol, blockquote, .lead`.
-- Code blocks, callouts and tables also stay inside the 44rem column (`pre` uses `box-sizing: border-box`). Letting them stick out collides with the left sidebar.
-
-### Shape and elevation
-
-| Radius | Use |
-|---|---|
-| 16px | callouts, code blocks |
-| 14px | popover card |
-| 12px | images, video, Mermaid, tables |
-| 999px | tag pills, scrollbar thumb |
-
-| Shadow | Use |
-|---|---|
-| `0 10px 15px -3px, 0 4px 6px -4px` in `--callout-shadow` | callouts |
-| `0 8px 30px -12px rgb(0 0 0 / .25)` | images |
-| `0 20px 50px -20px rgb(0 0 0 / .35)` + `backdrop-filter: blur(14px)` | popovers |
+- Breakpoints: `$bp-sm` = 640px, `$bp-lg` = 1024px. Use these for typography, not Quartz's 800px variables (`$mobile` is only used for overlay positioning).
+- Column: `max-width: 44rem` for paragraphs, lists, blockquotes, lead, code blocks, callouts and tables. Nothing sticks out of it (that collides with the sidebar). `pre` uses `box-sizing: border-box`.
 
 ### Motion
 
-`transition: <prop> 0.2s ease` (links only so far). Everything is disabled under `prefers-reduced-motion`.
+`transition: <prop> 0.2s ease` (links). Everything is disabled under `prefers-reduced-motion`.
 
 ## Component patterns
 
-- **Links** (`a.internal-link`, `a.external`): `--ink`, 1px underline at 30%, offset 2px, weight inherit, no background. Hover: `--ink-violet`, underline 30% violet.
-- **Tag pills** (`a.internal.tag-link`; not `.internal-link`): `--secondary` text on 12% fill, 999px radius, padding `0.15rem 0.65rem`, 0.85em, 450. Hover: `--tertiary` on 18% fill. Colours are set via local `--pill-*` vars.
-- **Bullets**: `•` drawn with `::before` at `left: -1.25em` in `--ink`; lists indent 1.25em with `box-sizing: border-box`. Task lists keep native markers.
-- **Callout card**: `--light` surface, 1px `--callout-border`, 16px radius, callout shadow, `1.25rem 1.5rem` padding, 2.5rem vertical margin, 0.75rem between blocks, none under the last. Title in Bricolage 16px/500; keeps the theme's per-type icon and title colour.
-- **Lead**: opt-in only, via `> [!lead]` callout (all card styling stripped, title hidden) or `<div class="lead">`. Never applied automatically.
-- **Code block**: dark card, 16px radius, 2rem padding, 2.5rem margin. Mermaid blocks (`pre:has(> code.mermaid)`) are excluded. The `<pre>` scrolls sideways, not the inner `<code>` (`overflow: visible`), so the scrollbar sits at the card's bottom edge. Thin thumb in white at 25% on a transparent track, inset 16px from the corners.
+- **Links** (`a.internal-link`, `a.external`): `--ink`, 1px underline at 30%, offset 2px, weight inherit, no background. Hover: `--accent`, underline accent 30%.
+- **Tag pills** (`a.internal.tag-link`; not `.internal-link`): set through the theme's `--pill-*` vars. `--accent` on 12% fill; hover `--accent-strong` on 18%. `--radius-pill`, padding `0.15rem 0.65rem`, 0.85em, 450. The theme's pill on the wrapping `ul.tags > li` is removed.
+- **Bullets**: `•` via `::before` at `left: -1.25em` in `--ink`; 1.25em indent, `box-sizing: border-box`. Task lists keep native markers.
+- **Callout card**: `--light`, border, `--radius-card`, `--shadow-card`, `1.25rem 1.5rem` padding, 2.5rem margin. Title Bricolage 16px/500 with the theme's per-type icon colour. No margin under the last block.
+- **Lead**: opt-in only, via `> [!lead]` (card styling stripped, title hidden) or `<div class="lead">`.
+- **Code block**: `--code-bg`/`--code-text`, `--radius-card`, 2rem padding, Shiki `--shiki-dark` tokens. `pre` (not the inner `code`) scrolls horizontally; it sets `--scrollbar: var(--code-scrollbar)` and insets the track by the card radius. Mermaid blocks are excluded.
 - **Inline code**: `--codeFont` 0.9em/325, `--ink-strong` on `--inline-code-bg`, 2px vertical padding, no radius or border.
-- **Content meta** (date, reading time): the uppercase label role.
-- **Popover**: frosted card (see shape table), 1.5rem padding, thin ink scrollbar (`scrollbar-color` plus `::-webkit-scrollbar` for Safari), title 2rem.
-- **Note lists** (`.section-li > .section`): date and title on a shared baseline, `column-gap: 1rem`, h3 margin 0.
-- **Selection**: `--secondary` at 25%.
+- **Media**: `--radius-media`; images also get `--shadow-media`.
+- **Content meta** (date, reading time): the uppercase label role in `--ink-faint`.
+- **Scrollbars**: one global style for every scroller (page, sidebars, explorer, TOC, backlinks, search, popovers, tables, code). Thin, transparent track, `--scrollbar` thumb with `--radius-pill`, inset 2px by a transparent border with `background-clip: padding-box`; 8px in WebKit. Components never restyle scrollbars; they only override `--scrollbar`.
+- **Overlay card** (popover, search panel, graph box): `--light`, border, `--radius-card`, `--shadow-overlay`. Popover is frosted (`blur(var(--blur))`), 1.5rem padding.
+- **Overlay backdrop** (search, graph): `--backdrop` + `blur(var(--blur))`.
+- **Search**: input and results form one panel; the input is its top row (19px/450, `--ink`), separated by `--line-subtle`. Results are 8px-padded with `--radius-inner` rows that take `--hover-fill` on hover/focus. Preview padding `1.5rem 2rem`.
+- **Graph overlay**: "×" close button (2rem circle, `--light`, border) and a keyboard hint pill (12px/450, `--ink-muted`) sit on the backdrop; clicking outside the box closes it.
+- **Note lists** (`.section-li > .section`): date and title on a shared baseline, h3 margin 0.
+- **Selection**: accent 25%.
 
 ## Override conventions
 
@@ -155,26 +172,14 @@ Headings: tracking is negative, word-spacing gives it back. Page title uses -0.0
 | Theme variables on `:root:root[saved-theme]` | `:root:root:root[saved-theme]` (or `[saved-theme="light"/"dark"]`) |
 | Theme text rules (`html[saved-theme] body p`, `body a.internal-link`) | `:root[saved-theme] body article …` |
 | Theme callout rules | `:root:root[saved-theme] body article .callout` |
-| Popover overrides of page rules | `:root:root:root[saved-theme] body .popover …` |
+| Theme search, graph, tag `li` rules | `:root:root:root[saved-theme] body …` |
 
 - Note content is inside `article .markdown-rendered`; direct-child rules need `article .markdown-rendered > …`.
-- Popovers render the target page's `.popover-hint` elements, so any page-level layout rule (margins, bleed, widths) must be checked and, if needed, reset under `.popover`.
-- Give every section in `custom.scss` a `// ── Name ──` header and a one-line reason for any non-obvious rule.
-
-## Open inconsistencies
-
-Candidates for standardising. Decide before relying on them.
-
-1. **Two accent families.** Links and hover use ink/violet. Tags, selection, graph and theme accents use Flexoki cyan/orange.
-2. **Dark-mode variable mapping.** Only light mode maps `--dark`, `--darkgray`, `--text-*`, `--bold-color` and `--h*-color` to ink tokens. In dark mode, page chrome uses the theme/config values (`darkgray #CECDC3` vs `--ink-text #b7b5ac`).
-3. **Radii.** 16 / 14 / 12px with no rule for which applies. Could collapse to a card radius and a media radius as tokens.
-4. **Shadows.** Three recipes; images and popovers use raw black instead of a token.
-5. **Hairline borders.** The popover uses `--lightgray`, callouts use `--callout-border`.
-6. **Code-block colours** `#121226` / `#fff` are literals, not tokens.
-7. **h4 at 20.5px and h5/h6 at 18px** extend the scale without a step-up at 640px like h2/h3.
+- Popovers render the target page's `.popover-hint` elements, so page-level layout rules also apply inside the 30rem preview. Check them there.
+- Each section in `custom.scss` gets a `// ── Name ──` header and a one-line reason for any non-obvious rule.
 
 ## Planned roles
 
-Not built yet. Use these values when they're needed so they fit the system:
+Not built yet. Use these values when needed:
 - Sidenote: 14.5px, 325, 98.5%, line height 1.6, `--ink-muted`, 240px wide in the right margin on desktop.
-- Author block and next/previous links: 17px, 450, 98%, `--ink`.
+- Author block and next/previous links: 17px, 450, 98%, `--ink`, links `--accent`.

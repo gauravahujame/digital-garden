@@ -26,26 +26,26 @@ configuration:
       header: Fraunces
       body: Bricolage Grotesque
       code: Fragment Mono
-    colors: # Flexoki palette, https://stephango.com/flexoki
+    colors: # Flexoki surfaces, ink and accent tokens from quartz/styles/custom.scss
       lightMode:
         light: "#FFFCF0" # paper
         lightgray: "#E6E4D9" # base-100
         gray: "#B7B5AC" # base-300
-        darkgray: "#403E3C" # base-800
-        dark: "#100F0F" # black
-        secondary: "#24837B" # cyan-600
-        tertiary: "#BC5215" # orange-600
-        highlight: rgba(36, 131, 123, 0.10)
+        darkgray: "#4C4E67" # --ink-text
+        dark: "#22183C" # --ink
+        secondary: "#7C3AED" # accent, violet-600 (matches custom.scss)
+        tertiary: "#6D28D9" # accent-strong, violet-700
+        highlight: rgba(124, 58, 237, 0.10)
         textHighlight: "#F6E2A088" # yellow-100
       darkMode:
         light: "#100F0F" # black
         lightgray: "#282726" # base-900
         gray: "#575653" # base-700
-        darkgray: "#CECDC3" # base-200
-        dark: "#E6E4D9" # base-100
-        secondary: "#3AA99F" # cyan-400
-        tertiary: "#DA702C" # orange-400
-        highlight: rgba(58, 169, 159, 0.12)
+        darkgray: "#B7B5AC" # --ink-text, base-300
+        dark: "#E6E4D9" # --ink, base-100
+        secondary: "#A699D0" # accent, purple-300 (matches custom.scss)
+        tertiary: "#C4B9E0" # accent-strong, purple-200
+        highlight: rgba(166, 153, 208, 0.12)
         textHighlight: "#AD8301AA" # yellow-600
 
 plugins:

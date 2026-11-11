@@ -5,46 +5,62 @@
 // everywhere. Tokens, roles and override rules are documented in
 // .kiro/steering/ui-design-language.md.
 
-// ── Accent colours as plain hex ─────────────────────────────────
-// The theme derives accents with `hsl(calc(...))`, which Mermaid and the graph
-// can't parse ("Unsupported color format"). Pin them to Flexoki hex values.
-// The theme declares these on `:root:root[saved-theme]`; one more `:root`
-// makes these win regardless of stylesheet order.
-:root:root:root[saved-theme="light"] {
-  --color-accent: #24837b; // cyan-600
-  --color-accent-1: #2f968d; // cyan-500
-  --color-accent-2: #3aa99f; // cyan-400
-  --secondary: #24837b;
-  --tertiary: #bc5215; // orange-600
-  --highlight: rgba(36, 131, 123, 0.1);
-}
-
-:root:root:root[saved-theme="dark"] {
-  --color-accent: #3aa99f; // cyan-400
-  --color-accent-1: #5abdac; // cyan-300
-  --color-accent-2: #87d3c3; // cyan-200
-  --secondary: #3aa99f;
-  --tertiary: #da702c; // orange-400
-  --highlight: rgba(58, 169, 159, 0.12);
-}
-
-// ── Text colours ────────────────────────────────────────────────
+// ── Colour tokens ───────────────────────────────────────────────
+// One accent, purple. Plain hex only: the theme derives accents with
+// `hsl(calc(...))`, which Mermaid and the graph can't parse ("Unsupported
+// color format"). The theme declares its variables on `:root:root[saved-theme]`;
+// one more `:root` makes these win regardless of stylesheet order.
 // Light mode uses navy and gray inks. Dark mode uses Flexoki tones with the
 // same light-to-dark order.
 :root:root:root[saved-theme="light"] {
-  --ink-strong: #191034; // h2, h3, bold
+  --ink-strong: #191034; // h2–h6, bold, inline code
   --ink: #22183c; // title, lead, links, page chrome
   --ink-text: #4c4e67; // body text
-  --ink-muted: #676b89; // footer, secondary text
+  --ink-muted: #676b89; // footer, hints, secondary text
   --ink-faint: #9698b6; // small uppercase labels
   --ink-caption: #73739c; // image captions
-  --ink-violet: #7c3aed; // link hover
-  --callout-text: rgba(40, 25, 80, 0.7);
-  --callout-border: rgba(91, 33, 182, 0.12);
-  --callout-shadow: rgba(91, 33, 182, 0.075);
-  --inline-code-bg: rgba(231, 230, 244, 0.4);
 
-  // Feed the same colours to the theme and to Quartz components.
+  --accent: #7c3aed; // violet-600
+  --accent-strong: #6d28d9; // violet-700, hover
+  --accent-1: #8b5cf6; // violet-500
+  --accent-2: #a78bfa; // violet-400
+  --highlight: rgba(124, 58, 237, 0.1); // accent at 10%, read by the graph
+
+  --line: rgba(91, 33, 182, 0.12); // card and panel borders
+  --shadow-tint: rgba(91, 33, 182, 0.075);
+  --callout-text: rgba(40, 25, 80, 0.7);
+  --inline-code-bg: rgba(231, 230, 244, 0.4);
+}
+
+:root:root:root[saved-theme="dark"] {
+  --ink-strong: #f2f0e5; // base-50
+  --ink: #e6e4d9; // base-100
+  --ink-text: #b7b5ac; // base-300
+  --ink-muted: #878580; // base-500
+  --ink-faint: #6f6e69; // base-600
+  --ink-caption: #878580; // base-500
+
+  --accent: #a699d0; // purple-300
+  --accent-strong: #c4b9e0; // purple-200, hover
+  --accent-1: #8b7ec8; // purple-400
+  --accent-2: #c4b9e0; // purple-200
+  --highlight: rgba(166, 153, 208, 0.12);
+
+  --line: rgba(166, 153, 208, 0.18);
+  --shadow-tint: rgba(0, 0, 0, 0.3);
+  --callout-text: rgba(230, 228, 217, 0.75);
+  --inline-code-bg: rgba(166, 153, 208, 0.12);
+}
+
+// Shared by both modes: feed the tokens to the theme and to Quartz
+// components, and define the mode-independent tokens.
+:root:root:root[saved-theme] {
+  --color-accent: var(--accent);
+  --color-accent-1: var(--accent-1);
+  --color-accent-2: var(--accent-2);
+  --secondary: var(--accent);
+  --tertiary: var(--accent-strong);
+
   --dark: var(--ink);
   --darkgray: var(--ink-text);
   --text-normal: var(--ink-text);
@@ -58,20 +74,33 @@
   --h4-color: var(--ink-strong);
   --h5-color: var(--ink-strong);
   --h6-color: var(--ink-strong);
-}
 
-:root:root:root[saved-theme="dark"] {
-  --ink-strong: #f2f0e5; // base-50
-  --ink: #e6e4d9; // base-100
-  --ink-text: #b7b5ac; // base-300
-  --ink-muted: #878580; // base-500
-  --ink-faint: #6f6e69; // base-600
-  --ink-caption: #878580;
-  --ink-violet: #a699d0; // purple-400
-  --callout-text: rgba(230, 228, 217, 0.75);
-  --callout-border: rgba(166, 153, 208, 0.18);
-  --callout-shadow: rgba(0, 0, 0, 0.3);
-  --inline-code-bg: rgba(166, 153, 208, 0.12);
+  --line-subtle: color-mix(in srgb, var(--ink) 10%, transparent); // dividers inside a card
+  --hover-fill: color-mix(in srgb, var(--ink) 7%, transparent); // hovered rows
+
+  // Code blocks are dark in both modes.
+  --code-bg: #121226;
+  --code-text: #fff;
+  --code-scrollbar: rgb(255 255 255 / 0.25);
+  --scrollbar: color-mix(in srgb, var(--ink) 25%, transparent); // scrollbars on light cards
+
+  // Shape
+  --radius-card: 16px; // callouts, code blocks, popovers, search, graph
+  --radius-media: 12px; // images, video, Mermaid, tables
+  --radius-inner: 8px; // rows inside a card (card radius minus its 8px padding)
+  --radius-pill: 999px; // tags, buttons, hints, scrollbar thumb
+
+  // Elevation
+  --shadow-card:
+    0 10px 15px -3px var(--shadow-tint), 0 4px 6px -4px var(--shadow-tint);
+  --shadow-media: 0 8px 30px -12px rgb(0 0 0 / 0.25);
+  --shadow-overlay:
+    0 30px 60px -20px rgb(0 0 0 / 0.35), 0 10px 20px -10px var(--shadow-tint);
+
+  // Overlays: dimmed, blurred page behind search and the expanded graph,
+  // and the frosted popover card.
+  --backdrop: rgb(0 0 0 / 0.3);
+  --blur: 12px;
 }
 
 // ── Fonts ───────────────────────────────────────────────────────
@@ -160,7 +189,8 @@
 }
 
 .page-title {
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
+  word-spacing: 0.025em;
 }
 
 // Type breakpoints (same as Tailwind `sm` and `lg`). Sizes below are written
@@ -346,21 +376,27 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
 
 :root[saved-theme] body article h3 {
   font-size: 1.28125rem; // 20.5px
-  line-height: 1.6;
 
   @media #{$bp-sm} {
     font-size: 1.5rem; // 24px
-    line-height: 1.325;
   }
 }
 
-// h4–h6 continue the scale.
+// h4–h6 continue the scale: each level steps up one size at 640px.
 :root[saved-theme] body article h4 {
-  font-size: 1.28125rem;
+  font-size: 1.125rem; // 18px
+
+  @media #{$bp-sm} {
+    font-size: 1.28125rem; // 20.5px
+  }
 }
 
 :root[saved-theme] body article :is(h5, h6) {
-  font-size: 1.125rem;
+  font-size: 1rem; // 16px
+
+  @media #{$bp-sm} {
+    font-size: 1.1875rem; // 19px
+  }
 }
 
 :root[saved-theme] body article .markdown-rendered > :is(h2, h3, h4, h5, h6):first-child {
@@ -371,7 +407,7 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
 // and tints them with its yellow highlight colour. These selectors are one
 // step more specific so the overrides below win without `!important`.
 
-// ── Links: ink colour with a faint underline, violet on hover ──
+// ── Links: ink colour with a faint underline, accent on hover ──
 :root[saved-theme] body article a:is(.internal-link, .external):not(.tag-link) {
   background-color: transparent;
   padding: 0;
@@ -386,8 +422,8 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
     text-decoration-color 0.2s ease;
 
   &:hover {
-    color: var(--ink-violet);
-    text-decoration-color: color-mix(in srgb, var(--ink-violet) 30%, transparent);
+    color: var(--accent);
+    text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 }
 
@@ -405,32 +441,33 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
 // Tag links have the classes `internal tag-link` (not `internal-link`).
 // Weight 450 like other UI text; the base `a` rule would make them 600.
 :root[saved-theme] body a.internal.tag-link {
-  --pill-background: color-mix(in srgb, var(--secondary) 12%, transparent);
-  --pill-background-hover: color-mix(in srgb, var(--tertiary) 18%, transparent);
-  --pill-color: var(--secondary);
+  // The theme colours tag text through --pill-color.
+  --pill-background: color-mix(in srgb, var(--accent) 12%, transparent);
+  --pill-background-hover: color-mix(in srgb, var(--accent) 18%, transparent);
+  --pill-color: var(--accent);
+  --pill-color-hover: var(--accent-strong);
   text-decoration: none;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 0.15rem 0.65rem;
   font-size: 0.85em;
   font-weight: 450;
+  color: var(--pill-color);
   background-color: var(--pill-background);
 
   &:hover {
     background-color: var(--pill-background-hover);
-    color: var(--tertiary);
+    color: var(--pill-color-hover);
   }
 }
 
-// ── Callouts: white card with a faint violet border ─────────────
+// ── Callouts: card with a faint purple border ───────────────────
 // Keeps each type's icon and title colour from the theme. The lead
 // callout above opts out of all of this.
 :root:root[saved-theme] body article .callout:not([data-callout="lead"]) {
   background: var(--light);
-  border: 1px solid var(--callout-border);
-  border-radius: 16px;
-  box-shadow:
-    0 10px 15px -3px var(--callout-shadow),
-    0 4px 6px -4px var(--callout-shadow);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   backdrop-filter: none;
   padding: 1.25rem 1.5rem;
   margin: 2.5rem 0;
@@ -477,12 +514,13 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
   border-radius: 0;
 }
 
-// Code blocks are always dark, so both modes use Shiki's dark theme colours (`--shiki-dark`, vitesse-dark in quartz.config.yaml).
+// Code blocks are always dark, so both modes use Shiki's dark theme colours
+// (`--shiki-dark`, vitesse-dark in quartz.config.yaml).
 :root[saved-theme] body article pre:not(:has(> code.mermaid)) {
-  background-color: #121226;
-  color: #fff;
+  background-color: var(--code-bg);
+  color: var(--code-text);
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-card);
   padding: 2rem;
   margin: 2.5rem 0;
   font-family: var(--codeFont);
@@ -492,21 +530,10 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
   // sits at the card's bottom edge, below the padding.
   overflow-x: auto;
   overflow-y: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgb(255 255 255 / 0.25) transparent;
-
-  &::-webkit-scrollbar {
-    height: 8px;
-  }
+  --scrollbar: var(--code-scrollbar); // light thumb on the dark card
 
   &::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 0 16px; // keep the thumb clear of the rounded corners
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgb(255 255 255 / 0.25);
-    border-radius: 999px;
+    margin: 0 var(--radius-card); // keep the thumb clear of the rounded corners
   }
 
   & > code {
@@ -518,7 +545,7 @@ article .markdown-rendered > blockquote.callout[data-callout="lead"] {
     padding: 0;
     border-radius: 0;
     background: none;
-    color: #fff;
+    color: var(--code-text);
   }
 
   & > code[data-theme*=" "],
@@ -569,11 +596,11 @@ article img,
 article video,
 article .mermaid,
 article table {
-  border-radius: 12px;
+  border-radius: var(--radius-media);
 }
 
 article img {
-  box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.25);
+  box-shadow: var(--shadow-media);
 }
 
 // ── Footer ──────────────────────────────────────────────────────
@@ -584,31 +611,13 @@ footer {
 
 // ── Popovers (link previews): frosted card ──────────────────────
 .popover > .popover-inner {
-  border-radius: 14px;
-  border: 1px solid var(--lightgray);
-  box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.35);
-  backdrop-filter: blur(14px);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-overlay);
+  backdrop-filter: blur(var(--blur));
   padding: 1.5rem;
   overflow-x: hidden;
   overflow-y: auto;
-  // Thin scrollbar in the ink colour. `scrollbar-color` covers Chrome and
-  // Firefox; the ::-webkit-scrollbar rules cover Safari.
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--ink) 25%, transparent);
-    border-radius: 999px;
-    border: 2px solid var(--light);
-  }
 
   // The preview starts at the breadcrumbs; no extra space above them.
   & > :first-child {
@@ -616,9 +625,9 @@ footer {
   }
 }
 
-// Inside a preview: a smaller title that fits the 30rem card.
+// Inside a preview: the phone-size title, which fits the 30rem card.
 :root[saved-theme] body .popover .article-title {
-  font-size: 2rem;
+  font-size: 1.875rem; // 30px
 }
 
 // ── Note lists (tag and folder pages, and their previews) ───────
@@ -644,12 +653,12 @@ footer {
 // apart. Join them into one panel: the input is the panel's top row and the
 // results sit directly under it.
 :root:root:root[saved-theme] body .search > .search-container {
-  background-color: rgb(0 0 0 / 0.3);
-  backdrop-filter: blur(6px);
+  background-color: var(--backdrop);
+  backdrop-filter: blur(var(--blur));
 
   & > .search-space {
-    border-radius: 16px;
-    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.4);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-overlay);
 
     & > :not(.ghost-text):not(.tag-suggestions) {
       box-shadow: none;
@@ -660,23 +669,23 @@ footer {
     // Input: the panel's top row.
     & > input.search-bar {
       padding: 1rem 1.25rem;
-      font-size: 1.1rem;
-      font-weight: 400;
+      font-size: 1.1875rem; // 19px, body size
+      font-weight: 450;
       color: var(--ink);
-      border: 1px solid var(--callout-border);
-      border-radius: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
     }
 
     // While results show, the input and results share one outline.
     &:has(> .search-layout.display-results) > input.search-bar {
-      border-bottom-color: color-mix(in srgb, var(--ink) 10%, transparent);
-      border-radius: 16px 16px 0 0;
+      border-bottom-color: var(--line-subtle);
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
     }
 
     & > .search-layout {
-      border: 1px solid var(--callout-border);
+      border: 1px solid var(--line);
       border-top: none;
-      border-radius: 0 0 16px 16px;
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
       overflow: hidden;
 
       & > div {
@@ -687,12 +696,12 @@ footer {
       & > .results-container {
         padding: 0.5rem;
         box-sizing: border-box;
-        border-right-color: color-mix(in srgb, var(--ink) 10%, transparent);
+        border-right-color: var(--line-subtle);
 
         & .result-card {
           padding: 0.75rem 0.875rem;
           border: none;
-          border-radius: 10px;
+          border-radius: var(--radius-inner);
           color: var(--ink-text);
 
           & > h3 {
@@ -704,7 +713,7 @@ footer {
           &:hover,
           &:focus,
           &.focus {
-            background: color-mix(in srgb, var(--ink) 7%, transparent);
+            background: var(--hover-fill);
           }
         }
       }
@@ -723,16 +732,14 @@ footer {
 // The theme makes the box's border transparent and the backdrop clear, so
 // the graph blends into the page. Dim the backdrop and draw a card.
 :root:root:root[saved-theme] body .graph > .global-graph-outer {
-  background-color: rgb(0 0 0 / 0.3);
-  backdrop-filter: blur(6px);
+  background-color: var(--backdrop);
+  backdrop-filter: blur(var(--blur));
 
   & > .global-graph-container {
-    border: 1px solid var(--callout-border);
-    border-radius: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
     background-color: var(--light);
-    box-shadow:
-      0 30px 60px -20px rgb(0 0 0 / 0.35),
-      0 10px 20px -10px var(--callout-shadow);
+    box-shadow: var(--shadow-overlay);
     overflow: hidden;
   }
 
@@ -749,13 +756,13 @@ footer {
     height: 2rem;
     display: grid;
     place-items: center;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-family: var(--bodyFont);
-    font-size: 1.4rem;
+    font-size: 1.5rem; // 24px
     line-height: 1;
     color: var(--ink);
-    background-color: color-mix(in srgb, var(--ink) 8%, var(--light));
-    border: 1px solid var(--callout-border);
+    background-color: var(--light);
+    border: 1px solid var(--line);
     cursor: pointer;
   }
 
@@ -766,13 +773,13 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     padding: 0.25rem 0.75rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-family: var(--bodyFont);
     font-size: 0.75rem;
     font-weight: 450;
     color: var(--ink-muted);
     background-color: var(--light);
-    border: 1px solid var(--callout-border);
+    border: 1px solid var(--line);
     pointer-events: none;
   }
 
@@ -795,9 +802,38 @@ footer {
   }
 }
 
+// ── Scrollbars ──────────────────────────────────────────────────
+// One thin style for every scrollbar: the page, sidebars, table of contents,
+// backlinks, explorer, search, popovers and code blocks. A component changes
+// only the thumb colour by setting `--scrollbar` (code blocks do).
+// `scrollbar-width`/`scrollbar-color` cover Chrome and Firefox; the
+// ::-webkit-scrollbar rules cover Safari. The thumb's transparent border with
+// `background-clip: padding-box` insets it 2px on any background.
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+}
+
 // ── Text selection in the accent colour ─────────────────────────
 ::selection {
-  background: color-mix(in srgb, var(--secondary) 25%, transparent);
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
