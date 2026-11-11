@@ -1,7 +1,9 @@
 @use "./variables.scss" as *;
 
 // Finishing touches on top of the Flexoki theme (see quartz.config.yaml).
-// Kept small on purpose: the theme does the heavy lifting.
+// Weight and size change with the role of the text instead of one weight
+// everywhere. Tokens, roles and override rules are documented in
+// .kiro/steering/ui-design-language.md.
 
 // ── Accent colours as plain hex ─────────────────────────────────
 // The theme derives accents with `hsl(calc(...))`, which Mermaid and the graph
@@ -26,43 +28,59 @@
   --highlight: rgba(58, 169, 159, 0.12);
 }
 
-// ── Explorer: don't scroll the page on first load ───────────────
-// The explorer calls scrollIntoView() on the active note when there is no
-// saved scroll position, which scrolls the whole window. A large scroll
-// margin keeps the window at the top while the item is already on screen.
-.explorer .active {
-  scroll-margin-top: 100vh;
+// ── Text colours ────────────────────────────────────────────────
+// Light mode uses navy and gray inks. Dark mode uses Flexoki tones with the
+// same light-to-dark order.
+:root:root:root[saved-theme="light"] {
+  --ink-strong: #191034; // h2, h3, bold
+  --ink: #22183c; // title, lead, links, page chrome
+  --ink-text: #4c4e67; // body text
+  --ink-muted: #676b89; // footer, secondary text
+  --ink-faint: #9698b6; // small uppercase labels
+  --ink-caption: #73739c; // image captions
+  --ink-violet: #7c3aed; // link hover
+  --callout-text: rgba(40, 25, 80, 0.7);
+  --callout-border: rgba(91, 33, 182, 0.12);
+  --callout-shadow: rgba(91, 33, 182, 0.075);
+  --inline-code-bg: rgba(231, 230, 244, 0.4);
+
+  // Feed the same colours to the theme and to Quartz components.
+  --dark: var(--ink);
+  --darkgray: var(--ink-text);
+  --text-normal: var(--ink-text);
+  --text-muted: var(--ink-muted);
+  --text-faint: var(--ink-faint);
+  --bold-color: var(--ink-strong);
+  --inline-title-color: var(--ink);
+  --h1-color: var(--ink);
+  --h2-color: var(--ink-strong);
+  --h3-color: var(--ink-strong);
+  --h4-color: var(--ink-strong);
+  --h5-color: var(--ink-strong);
+  --h6-color: var(--ink-strong);
 }
 
-// ── Reading rhythm: Bricolage Grotesque body text ───────────────
-// font-stretch uses the font's width axis, loaded in Head.tsx.
-// Headings set their own size, weight and spacing below. The Flexoki theme
-// sets `html[saved-theme] body p` to the interface font at weight 400, so the
-// text elements are targeted directly with a more specific selector.
-:root[saved-theme] body article,
-:root[saved-theme] body article :is(p, li, dd, dt, td, th, blockquote) {
-  font-family: var(--bodyFont);
-  font-size: 1.28125rem;
-  font-weight: 500;
-  font-stretch: 98%;
-  letter-spacing: -0.025em;
-  line-height: 1.6;
+:root:root:root[saved-theme="dark"] {
+  --ink-strong: #f2f0e5; // base-50
+  --ink: #e6e4d9; // base-100
+  --ink-text: #b7b5ac; // base-300
+  --ink-muted: #878580; // base-500
+  --ink-faint: #6f6e69; // base-600
+  --ink-caption: #878580;
+  --ink-violet: #a699d0; // purple-400
+  --callout-text: rgba(230, 228, 217, 0.75);
+  --callout-border: rgba(166, 153, 208, 0.18);
+  --callout-shadow: rgba(0, 0, 0, 0.3);
+  --inline-code-bg: rgba(166, 153, 208, 0.12);
 }
 
-article > p,
-article > ul,
-article > ol,
-article > blockquote {
-  max-width: 68ch;
-}
-
-// ── Headings: P22 Mackinac Pro, tighter and more editorial ─────
-// Loaded from Adobe Fonts in quartz/components/Head.tsx. The kit has
-// weights 400, 500, 700 and 800 (each with italic); stick to those.
-// Weights are lighter than the Flexoki defaults (700 down to 600).
-// The page and article titles follow --h1-weight.
+// ── Fonts ───────────────────────────────────────────────────────
+// Loaded in quartz/components/Head.tsx: Bricolage Grotesque (all axes) and
+// Fragment Mono from Google Fonts, P22 Mackinac Pro from Adobe Fonts.
+// Every heading uses Mackinac 500.
 :root:root:root[saved-theme] {
   --mackinac: "p22-mackinac-pro", serif;
+  --codeFont: ui-monospace, SFMono-Regular, "Fragment Mono", Menlo, monospace;
   --titleFont: var(--mackinac);
   --headerFont: var(--mackinac);
   --inline-title-font: var(--mackinac);
@@ -75,57 +93,318 @@ article > blockquote {
   --h1-weight: 500;
   --h2-weight: 500;
   --h3-weight: 500;
-  --h4-weight: 400;
-  --h5-weight: 400;
-  --h6-weight: 400;
-}
-h1,
-h2,
-h3,
-.article-title {
-  letter-spacing: -0.02em;
-}
-// The fonts plugin and the theme also set font-family on headings and the
-// page title directly; this makes sure Mackinac wins everywhere.
-:root[saved-theme] body :is(h1, h2, h3, h4, h5, h6, .page-title, .page-title a) {
-  font-family: var(--mackinac);
+  --h4-weight: 500;
+  --h5-weight: 500;
+  --h6-weight: 500;
+  --inline-title-weight: 500;
+  --nav-item-weight: 450;
 }
 
-.article-title {
-  font-size: clamp(2.2rem, 4vw, 3rem);
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
+// Base text: light (325) Bricolage, slightly narrow, optical size fixed at 24.
+// Grayscale antialiasing everywhere makes text on macOS thinner and lighter.
+// Plain `text-wrap: wrap` replaces Quartz's default `pretty`, which breaks
+// lines differently.
+:root[saved-theme] body {
+  font-family: var(--bodyFont);
+  font-weight: 325;
+  font-stretch: 98.5%;
+  font-variation-settings: "opsz" 24;
+  color: var(--ink-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root[saved-theme] body :is(p, li, ul, ol, a, h1, h2, h3, h4, h5, h6, .content-meta) {
+  text-wrap: wrap;
+}
+
+// Code fonts have no optical size axis.
+:root[saved-theme] body :is(code, pre, kbd, samp) {
+  font-variation-settings: normal;
+}
+
+// The fonts plugin and the theme set font-family on headings directly.
+:root[saved-theme] body :is(h1, h2, h3, h4, h5, h6, .page-title, .page-title a) {
+  font-family: var(--mackinac);
+  font-weight: 500;
+}
+
+// ── Explorer: don't scroll the page on first load ───────────────
+// The explorer calls scrollIntoView() on the active note when there is no
+// saved scroll position, which scrolls the whole window. A large scroll
+// margin keeps the window at the top while the item is already on screen.
+.explorer .active {
+  scroll-margin-top: 100vh;
+}
+
+// ── Page chrome: sidebars and breadcrumbs ───────────────────────
+// The theme gives these its interface font; use Bricolage at 450.
+:root:root:root[saved-theme] {
+  --font-interface: var(--bodyFont);
+}
+
+:root[saved-theme] body :is(.sidebar, .breadcrumb-container) {
+  font-family: var(--bodyFont);
+  font-weight: 450;
+  font-stretch: 98%;
+}
+
+:root[saved-theme] body .breadcrumb-element a {
+  font-weight: 450;
+  color: var(--ink);
+}
+
+:root[saved-theme] body .breadcrumb-container {
+  font-size: 0.90625rem; // 14.5px
+  margin-bottom: 1rem; // space between the path and the page title
 }
 
 .page-title {
   letter-spacing: -0.03em;
 }
 
+// Type breakpoints (same as Tailwind `sm` and `lg`). Sizes below are written
+// mobile-first: the plain value is for phones, then these step them up.
+$bp-sm: "(min-width: 640px)";
+$bp-lg: "(min-width: 1024px)";
+
+// ── Post title and the date / reading-time label ────────────────
+:root[saved-theme] body .article-title {
+  font-size: 1.875rem; // 30px
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  word-spacing: 0.025em;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+
+  @media #{$bp-sm} {
+    font-size: 2.25rem; // 36px
+  }
+
+  @media #{$bp-lg} {
+    font-size: 2.75rem; // 44px
+  }
+}
+
+:root[saved-theme] body .content-meta {
+  font-family: var(--bodyFont);
+  font-size: 0.75rem;
+  font-weight: 575;
+  font-stretch: 97.5%;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+// ── Body text ───────────────────────────────────────────────────
+// The theme sets `html[saved-theme] body p` to its interface font at 400,
+// so these selectors are one step more specific.
+:root[saved-theme] body article :is(p, li, dd, dt, td, th) {
+  font-family: var(--bodyFont);
+  font-size: 1rem;
+  font-weight: 325;
+  font-stretch: 98.5%;
+  letter-spacing: normal;
+  line-height: 1.625;
+  color: var(--ink-text);
+
+  @media #{$bp-sm} {
+    font-size: 1.1875rem; // 19px
+    line-height: 1.6;
+  }
+}
+
+:root[saved-theme] body article .markdown-rendered > p {
+  margin: 0 0 1.25rem;
+}
+
+article .markdown-rendered > :is(p, ul, ol, blockquote, .lead),
+article .markdown-rendered > blockquote.callout[data-callout="lead"] {
+  max-width: 44rem;
+}
+
+// Lists: 1.25em indent, pulled 0.2em up towards the paragraph above.
+// Bullets are the "•" glyph in ink colour.
+:root[saved-theme] body article :is(ul, ol) {
+  font-size: 1rem;
+  line-height: 1.625;
+  margin: -0.2em 0 1.25rem;
+  padding-left: 1.25em;
+  box-sizing: border-box; // keep the indent inside the 44rem column
+
+  @media #{$bp-sm} {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+  }
+}
+
+:root[saved-theme] body article li {
+  margin-top: 0.2em;
+  padding: 0;
+
+  &::marker {
+    color: var(--ink);
+  }
+}
+
+:root[saved-theme] body article ul > li:not(.task-list-item) {
+  list-style: none;
+  position: relative;
+
+  &::before {
+    content: "•";
+    position: absolute;
+    left: -1.25em;
+    color: var(--ink);
+  }
+}
+
+// Nested lists sit tight under their parent item.
+:root[saved-theme] body article li > :is(ul, ol) {
+  margin: 0.2em 0 0;
+}
+
+:root[saved-theme] body article :is(strong, b) {
+  font-weight: 500;
+  font-stretch: 98%;
+  letter-spacing: -0.005em;
+  color: var(--ink-strong);
+}
+
+// Italic keeps the weight of the text around it.
+:root[saved-theme] body article :is(em, i) {
+  font-weight: inherit;
+}
+
+:root[saved-theme] body article figcaption {
+  font-size: 0.75rem;
+  font-weight: 450;
+  font-stretch: 98%;
+  color: var(--ink-caption);
+}
+
+// ── Lead paragraph ──────────────────────────────────────────────
+// Mark it in a note with a `> [!lead]` callout, or wrap it in
+// `<div class="lead">…</div>`. Same size on every screen.
+:root[saved-theme] body article .lead :is(p, li),
+:root[saved-theme] body article p.lead,
+:root:root[saved-theme] body article .callout[data-callout="lead"] :is(p, li) {
+  font-size: 1.28125rem; // 20.5px
+  font-weight: 500;
+  font-stretch: 98%;
+  letter-spacing: -0.025em;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+:root:root[saved-theme] body article .callout[data-callout="lead"] {
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  width: auto;
+
+  & > .callout-title {
+    display: none;
+  }
+
+  & p {
+    margin: 0 0 1.25rem;
+  }
+
+  & > .callout-content > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// ── Headings inside a post ──────────────────────────────────────
+// Give back the tracking between words: word-spacing is the negative of
+// letter-spacing.
+:root[saved-theme] body article :is(h2, h3, h4, h5, h6) {
+  letter-spacing: -0.025em;
+  word-spacing: 0.025em;
+  line-height: 1.325;
+  color: var(--ink-strong);
+  margin: 2.5rem 0 0.75rem;
+
+  @media #{$bp-sm} {
+    margin-top: 3rem;
+  }
+}
+
+:root[saved-theme] body article h2 {
+  font-size: 1.5rem; // 24px
+
+  @media #{$bp-sm} {
+    font-size: 1.875rem; // 30px
+  }
+}
+
+:root[saved-theme] body article h3 {
+  font-size: 1.28125rem; // 20.5px
+  line-height: 1.6;
+
+  @media #{$bp-sm} {
+    font-size: 1.5rem; // 24px
+    line-height: 1.325;
+  }
+}
+
+// h4–h6 continue the scale.
+:root[saved-theme] body article h4 {
+  font-size: 1.28125rem;
+}
+
+:root[saved-theme] body article :is(h5, h6) {
+  font-size: 1.125rem;
+}
+
+:root[saved-theme] body article .markdown-rendered > :is(h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
 // The Flexoki theme styles links with `:root[saved-theme] body a.internal-link`
 // and tints them with its yellow highlight colour. These selectors are one
 // step more specific so the overrides below win without `!important`.
 
-// ── Links: quiet by default, animated underline on hover ───────
-:root[saved-theme] body article a.internal-link:not(.tag-link) {
+// ── Links: ink colour with a faint underline, violet on hover ──
+:root[saved-theme] body article a:is(.internal-link, .external):not(.tag-link) {
   background-color: transparent;
   padding: 0;
-  color: var(--secondary);
+  color: var(--ink);
+  font-weight: inherit;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--secondary) 35%, transparent);
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--ink) 30%, transparent);
+  text-underline-offset: 2px;
   transition:
     color 0.2s ease,
     text-decoration-color 0.2s ease;
 
   &:hover {
-    color: var(--tertiary);
-    text-decoration-color: var(--tertiary);
+    color: var(--ink-violet);
+    text-decoration-color: color-mix(in srgb, var(--ink-violet) 30%, transparent);
   }
 }
 
 // ── Tags as soft pills ──────────────────────────────────────────
-:root[saved-theme] body a.internal-link.tag-link {
+// The Flexoki theme also draws a pill on the <li> around each tag, which
+// showed as a second pill behind ours. Keep only the one on the link.
+:root:root:root[saved-theme] body ul.tags > li {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+// Tag links have the classes `internal tag-link` (not `internal-link`).
+// Weight 450 like other UI text; the base `a` rule would make them 600.
+:root[saved-theme] body a.internal.tag-link {
   --pill-background: color-mix(in srgb, var(--secondary) 12%, transparent);
   --pill-background-hover: color-mix(in srgb, var(--tertiary) 18%, transparent);
   --pill-color: var(--secondary);
@@ -133,6 +412,7 @@ h3,
   border-radius: 999px;
   padding: 0.15rem 0.65rem;
   font-size: 0.85em;
+  font-weight: 450;
   background-color: var(--pill-background);
 
   &:hover {
@@ -141,10 +421,152 @@ h3,
   }
 }
 
-// ── Media and code: rounded corners ─────────────────────────────
+// ── Callouts: white card with a faint violet border ─────────────
+// Keeps each type's icon and title colour from the theme. The lead
+// callout above opts out of all of this.
+:root:root[saved-theme] body article .callout:not([data-callout="lead"]) {
+  background: var(--light);
+  border: 1px solid var(--callout-border);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 15px -3px var(--callout-shadow),
+    0 4px 6px -4px var(--callout-shadow);
+  backdrop-filter: none;
+  padding: 1.25rem 1.5rem;
+  margin: 2.5rem 0;
+
+  & .callout-title {
+    padding: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  & .callout-title-inner,
+  & .callout-title-inner p {
+    font-family: var(--bodyFont);
+    font-size: 1rem;
+    font-weight: 500;
+    font-stretch: 98%;
+  }
+
+  & .callout-content :is(p, li) {
+    font-size: 1rem;
+    font-weight: 325;
+    line-height: 1.5;
+    color: var(--callout-text);
+  }
+
+  & .callout-content :is(p, ul, ol) {
+    margin: 0 0 0.75rem;
+  }
+
+  // No extra space under the last block; the card padding is enough.
+  & .callout-content > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// ── Code ────────────────────────────────────────────────────────
+:root[saved-theme] body article :is(p, li, td, th) code {
+  font-family: var(--codeFont);
+  font-size: 0.9em;
+  font-weight: 325;
+  color: var(--ink-strong);
+  background-color: var(--inline-code-bg);
+  padding: 2px 0;
+  border: none;
+  border-radius: 0;
+}
+
+// Code blocks are always dark, so both modes use Shiki's dark theme colours (`--shiki-dark`, vitesse-dark in quartz.config.yaml).
+:root[saved-theme] body article pre:not(:has(> code.mermaid)) {
+  background-color: #121226;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2.5rem 0;
+  font-family: var(--codeFont);
+
+  // Scroll the whole block, not the inner <code>. When <code> scrolled, its
+  // scrollbar sat right under the last line, inside the padding. On <pre> it
+  // sits at the card's bottom edge, below the padding.
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0 16px; // keep the thumb clear of the rounded corners
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 0.25);
+    border-radius: 999px;
+  }
+
+  & > code {
+    overflow: visible;
+    font-family: var(--codeFont);
+    font-size: 1rem;
+    font-weight: 325;
+    line-height: 1.6;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    color: #fff;
+  }
+
+  & > code[data-theme*=" "],
+  & > code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+    background-color: transparent;
+  }
+}
+
+:root[saved-theme] body article figure[data-rehype-pretty-code-figure] {
+  margin: 2.5rem 0;
+
+  & > pre {
+    margin: 0;
+  }
+}
+
+// Code blocks and callouts line up with the text column. Letting them stick
+// out past it collides with the sidebar, because the column has little padding.
+:root[saved-theme] body article .markdown-rendered {
+  & > pre,
+  & > figure[data-rehype-pretty-code-figure],
+  & > .callout {
+    max-width: 44rem;
+  }
+
+  // Count the 2rem padding inside the width, so code blocks match the text.
+  & pre {
+    box-sizing: border-box;
+  }
+}
+
+// ── Tables ──────────────────────────────────────────────────────
+// Quartz wraps tables in `.table-container` (for sideways scrolling) and
+// puts the margin on the table inside it, which the theme cancels. Space the
+// wrapper like other blocks instead and line the table up with the text.
+:root[saved-theme] body article .markdown-rendered > .table-container {
+  max-width: 44rem;
+  margin: 1.75rem 0 2rem;
+
+  & > table {
+    margin: 0;
+  }
+}
+
+// ── Media: rounded corners ──────────────────────────────────────
 article img,
 article video,
-article pre,
 article .mermaid,
 article table {
   border-radius: 12px;
@@ -154,12 +576,223 @@ article img {
   box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.25);
 }
 
+// ── Footer ──────────────────────────────────────────────────────
+footer {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
 // ── Popovers (link previews): frosted card ──────────────────────
 .popover > .popover-inner {
   border-radius: 14px;
   border: 1px solid var(--lightgray);
   box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.35);
   backdrop-filter: blur(14px);
+  padding: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  // Thin scrollbar in the ink colour. `scrollbar-color` covers Chrome and
+  // Firefox; the ::-webkit-scrollbar rules cover Safari.
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--ink) 25%, transparent);
+    border-radius: 999px;
+    border: 2px solid var(--light);
+  }
+
+  // The preview starts at the breadcrumbs; no extra space above them.
+  & > :first-child {
+    margin-top: 0;
+  }
+}
+
+// Inside a preview: a smaller title that fits the 30rem card.
+:root[saved-theme] body .popover .article-title {
+  font-size: 2rem;
+}
+
+// ── Note lists (tag and folder pages, and their previews) ───────
+// Line the post title up with its date: share a baseline and drop the
+// heading's top margin.
+:root[saved-theme] body .section-li > .section {
+  align-items: baseline;
+  column-gap: 1rem;
+
+  & > .desc > h3 {
+    margin: 0;
+  }
+
+  & > .meta {
+    margin: 0;
+  }
+}
+
+// ── Search popup ────────────────────────────────────────────────
+// The theme leaves the overlay, results list and preview transparent, so
+// page text showed through. Dim the page and put the results on a card.
+// The plugin draws the input and the results as two separate cards 2em
+// apart. Join them into one panel: the input is the panel's top row and the
+// results sit directly under it.
+:root:root:root[saved-theme] body .search > .search-container {
+  background-color: rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(6px);
+
+  & > .search-space {
+    border-radius: 16px;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.4);
+
+    & > :not(.ghost-text):not(.tag-suggestions) {
+      box-shadow: none;
+      margin-bottom: 0;
+      background: var(--light);
+    }
+
+    // Input: the panel's top row.
+    & > input.search-bar {
+      padding: 1rem 1.25rem;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink);
+      border: 1px solid var(--callout-border);
+      border-radius: 16px;
+    }
+
+    // While results show, the input and results share one outline.
+    &:has(> .search-layout.display-results) > input.search-bar {
+      border-bottom-color: color-mix(in srgb, var(--ink) 10%, transparent);
+      border-radius: 16px 16px 0 0;
+    }
+
+    & > .search-layout {
+      border: 1px solid var(--callout-border);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
+
+      & > div {
+        border-radius: 0;
+      }
+
+      // Results list: padded, with rounded hover rows instead of dividers.
+      & > .results-container {
+        padding: 0.5rem;
+        box-sizing: border-box;
+        border-right-color: color-mix(in srgb, var(--ink) 10%, transparent);
+
+        & .result-card {
+          padding: 0.75rem 0.875rem;
+          border: none;
+          border-radius: 10px;
+          color: var(--ink-text);
+
+          & > h3 {
+            font-size: 1rem;
+            margin: 0 0 0.25rem;
+            color: var(--ink);
+          }
+
+          &:hover,
+          &:focus,
+          &.focus {
+            background: color-mix(in srgb, var(--ink) 7%, transparent);
+          }
+        }
+      }
+
+      // Preview: same padding on every side.
+      & > .preview-container {
+        padding: 1.5rem 2rem;
+        box-sizing: border-box;
+        color: var(--ink-text);
+      }
+    }
+  }
+}
+
+// ── Expanded graph view ─────────────────────────────────────────
+// The theme makes the box's border transparent and the backdrop clear, so
+// the graph blends into the page. Dim the backdrop and draw a card.
+:root:root:root[saved-theme] body .graph > .global-graph-outer {
+  background-color: rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(6px);
+
+  & > .global-graph-container {
+    border: 1px solid var(--callout-border);
+    border-radius: 16px;
+    background-color: var(--light);
+    box-shadow:
+      0 30px 60px -20px rgb(0 0 0 / 0.35),
+      0 10px 20px -10px var(--callout-shadow);
+    overflow: hidden;
+  }
+
+  // Close button and keyboard hint. They sit on the backdrop, outside the
+  // graph box, and the plugin closes the graph on any click outside the box.
+  // So clicking the "×" closes it without extra JavaScript.
+  &::before {
+    content: "×";
+    position: fixed;
+    z-index: 1;
+    top: calc(10vh + 0.75rem);
+    right: calc(10vw + 0.75rem);
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-family: var(--bodyFont);
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--ink);
+    background-color: color-mix(in srgb, var(--ink) 8%, var(--light));
+    border: 1px solid var(--callout-border);
+    cursor: pointer;
+  }
+
+  &::after {
+    content: "Esc to close · ⌘G / Ctrl+G to toggle";
+    position: fixed;
+    bottom: calc(10vh + 0.75rem);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-family: var(--bodyFont);
+    font-size: 0.75rem;
+    font-weight: 450;
+    color: var(--ink-muted);
+    background-color: var(--light);
+    border: 1px solid var(--callout-border);
+    pointer-events: none;
+  }
+
+  @media #{$mobile} {
+    &::before {
+      right: calc(5% + 0.75rem);
+    }
+  }
+}
+
+// ── Table of contents: keep the title visible when collapsed ───
+// The plugin shrinks a collapsed TOC to 1.4rem with overflow hidden, which
+// is shorter than our title, so the title gets clipped away. Size the TOC
+// to its title instead and hide the list (the plugin only hid it by clipping).
+.sidebar .toc:has(button.toc-header.collapsed) {
+  flex: 0 0 auto;
+
+  & > .toc-content.collapsed {
+    display: none;
+  }
 }
 
 // ── Text selection in the accent colour ─────────────────────────

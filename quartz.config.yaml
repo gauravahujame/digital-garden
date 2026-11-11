@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 #
 # Look: Flexoki theme (warm paper / ink) + P22 Mackinac Pro, Bricolage Grotesque
-# and JetBrains Mono. Mackinac comes from Adobe Fonts; `configuration.theme`
+# and Fragment Mono. Mackinac comes from Adobe Fonts; `configuration.theme`
 # keeps Fraunces as the header because social images need a Google font.
 # Visual styling comes from @quartz-themes/core and quartz-fonts below.
 # `configuration.theme` mirrors the same palette and fonts so that generated
@@ -25,7 +25,7 @@ configuration:
     typography:
       header: Fraunces
       body: Bricolage Grotesque
-      code: JetBrains Mono
+      code: Fragment Mono
     colors: # Flexoki palette, https://stephango.com/flexoki
       lightMode:
         light: "#FFFCF0" # paper
@@ -68,7 +68,7 @@ plugins:
       fontOrigin: local
       header: Bricolage Grotesque
       body: Bricolage Grotesque
-      code: JetBrains Mono
+      code: Fragment Mono
 
   # ── Markdown processing ───────────────────────────────────────
   - source: "@quartz-community/note-properties"
