@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 #
-# Look: Flexoki theme (warm paper / ink) + Fraunces, Inter and JetBrains Mono.
+# Look: Flexoki theme (warm paper / ink) + P22 Mackinac Pro, Bricolage Grotesque
+# and JetBrains Mono. Mackinac comes from Adobe Fonts; `configuration.theme`
+# keeps Fraunces as the header because social images need a Google font.
 # Visual styling comes from @quartz-themes/core and quartz-fonts below.
 # `configuration.theme` mirrors the same palette and fonts so that generated
 # assets (social images, fallbacks) match the site.
@@ -18,11 +20,11 @@ configuration:
     - templates
     - .obsidian
   theme:
-    fontOrigin: googleFonts
+    fontOrigin: local # fonts are loaded in quartz/components/Head.tsx
     cdnCaching: true
     typography:
       header: Fraunces
-      body: Inter
+      body: Bricolage Grotesque
       code: JetBrains Mono
     colors: # Flexoki palette, https://stephango.com/flexoki
       lightMode:
@@ -58,10 +60,15 @@ plugins:
     enabled: true
     options:
       useThemeFonts: false
-      title: { name: Fraunces, weights: [500] }
-      header: { name: Fraunces, weights: [400, 500] }
-      body: { name: Inter, weights: [400, 500, 600], includeItalic: true }
-      code: { name: JetBrains Mono, weights: [400, 500] }
+      # This plugin only sets the font CSS variables. The fonts themselves are
+      # loaded in quartz/components/Head.tsx, because the plugin can't request
+      # Bricolage Grotesque's width axis (needed for font-stretch) or the
+      # Adobe Fonts kit. Titles and headings are switched to P22 Mackinac Pro
+      # in quartz/styles/custom.scss.
+      fontOrigin: local
+      header: Bricolage Grotesque
+      body: Bricolage Grotesque
+      code: JetBrains Mono
 
   # ── Markdown processing ───────────────────────────────────────
   - source: "@quartz-community/note-properties"

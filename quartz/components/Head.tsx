@@ -57,6 +57,14 @@ export default (() => {
             )}
           </>
         )}
+        {/* Site fonts (see quartz-fonts in quartz.config.yaml and custom.scss):
+            Bricolage Grotesque with all axes (opsz, wdth, wght) for body text,
+            JetBrains Mono for code, and the Adobe Fonts kit for P22 Mackinac Pro. */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
+        <link rel="stylesheet" href="https://use.typekit.net/pso3wdg.css" />
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

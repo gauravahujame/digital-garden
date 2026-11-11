@@ -34,12 +34,19 @@
   scroll-margin-top: 100vh;
 }
 
-// ── Reading rhythm ──────────────────────────────────────────────
-article {
-  line-height: 1.7;
-  font-feature-settings:
-    "cv11" 1,
-    "ss01" 1; // Inter: single-storey a, open digits
+// ── Reading rhythm: Bricolage Grotesque body text ───────────────
+// font-stretch uses the font's width axis, loaded in Head.tsx.
+// Headings set their own size, weight and spacing below. The Flexoki theme
+// sets `html[saved-theme] body p` to the interface font at weight 400, so the
+// text elements are targeted directly with a more specific selector.
+:root[saved-theme] body article,
+:root[saved-theme] body article :is(p, li, dd, dt, td, th, blockquote) {
+  font-family: var(--bodyFont);
+  font-size: 1.28125rem;
+  font-weight: 500;
+  font-stretch: 98%;
+  letter-spacing: -0.025em;
+  line-height: 1.6;
 }
 
 article > p,
@@ -49,11 +56,22 @@ article > blockquote {
   max-width: 68ch;
 }
 
-// ── Headings: Fraunces, tighter and more editorial ─────────────
-// Lighter than the Flexoki defaults (700 down to 600). Only 400 and 500
-// are loaded for Fraunces (see quartz-fonts in quartz.config.yaml), so
-// stick to those. The page and article titles follow --h1-weight.
+// ── Headings: P22 Mackinac Pro, tighter and more editorial ─────
+// Loaded from Adobe Fonts in quartz/components/Head.tsx. The kit has
+// weights 400, 500, 700 and 800 (each with italic); stick to those.
+// Weights are lighter than the Flexoki defaults (700 down to 600).
+// The page and article titles follow --h1-weight.
 :root:root:root[saved-theme] {
+  --mackinac: "p22-mackinac-pro", serif;
+  --titleFont: var(--mackinac);
+  --headerFont: var(--mackinac);
+  --inline-title-font: var(--mackinac);
+  --h1-font: var(--mackinac);
+  --h2-font: var(--mackinac);
+  --h3-font: var(--mackinac);
+  --h4-font: var(--mackinac);
+  --h5-font: var(--mackinac);
+  --h6-font: var(--mackinac);
   --h1-weight: 500;
   --h2-weight: 500;
   --h3-weight: 500;
@@ -66,9 +84,11 @@ h2,
 h3,
 .article-title {
   letter-spacing: -0.02em;
-  font-variation-settings:
-    "opsz" 72,
-    "SOFT" 50;
+}
+// The fonts plugin and the theme also set font-family on headings and the
+// page title directly; this makes sure Mackinac wins everywhere.
+:root[saved-theme] body :is(h1, h2, h3, h4, h5, h6, .page-title, .page-title a) {
+  font-family: var(--mackinac);
 }
 
 .article-title {
