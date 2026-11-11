@@ -1,0 +1,5 @@
+# Netlify build settings, from https://quartz.jzhao.xyz/hosting#netlify
+# Node version comes from .node-version.
+[build]
+  command = "npx quartz plugin install && npx quartz build"
+  publish = "public"

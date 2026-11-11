@@ -14,7 +14,7 @@ configuration:
   enableSPA: true
   enablePopovers: true
   locale: en-US
-  baseUrl: gauravahujame.github.io/quartz
+  baseUrl: notes.gauravahuja.dev
   ignorePatterns:
     - private
     - templates
@@ -215,7 +215,7 @@ plugins:
     options:
       links:
         GitHub: https://github.com/gauravahujame
-        RSS: https://gauravahujame.github.io/quartz/index.xml
+        RSS: https://notes.gauravahuja.dev/index.xml
 
 layout:
   groups:
