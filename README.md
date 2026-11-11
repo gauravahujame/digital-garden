@@ -1,43 +1,17 @@
-# Gaurav's Garden
+# Quartz v5
 
-A digital garden built with [Quartz v5](https://quartz.jzhao.xyz), published at
-https://gauravahujame.github.io/quartz.
+> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
 
-## Layout
+Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
 
-| Path | What it is |
-|---|---|
-| `content/` | The notes. Open this folder as the Obsidian vault. |
-| `quartz.config.yaml` | Site settings, theme (Flexoki), fonts and plugins. |
-| `quartz/styles/custom.scss` | Style tweaks on top of the theme. |
-| `.github/workflows/deploy.yaml` | Builds and deploys to GitHub Pages on every push to `v5`. |
-| `quartz/` | The Quartz framework itself (from upstream, mostly untouched). |
+🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
 
-## Writing
+[Join the Discord Community](https://discord.gg/cRFFHYye7t)
 
-1. Open `content/` as a vault in Obsidian (*Open folder as vault*).
-2. In *Settings → Files and links*, set *New link format* to **Shortest path when possible**.
-3. Commit and push, either with the Obsidian Git plugin or `npx quartz sync`.
+## Sponsors
 
-Each note carries a status tag in its frontmatter: `seedling`, `budding` or `evergreen`.
-
-## Local preview
-
-```bash
-npm ci
-npx quartz build --serve   # http://localhost:8080
-```
-
-## Updating Quartz
-
-```bash
-npx quartz upgrade   # merges from upstream (jackyzha0/quartz, branch v5)
-```
-
-This repo deletes upstream's `docs/`, its workflows and a few GitHub meta files.
-If an upgrade reports a modify/delete conflict on one of those, keep the deletion:
-
-```bash
-git rm -r docs .github/ISSUE_TEMPLATE   # whichever paths conflicted
-git commit
-```
+<p align="center">
+  <a href="https://github.com/sponsors/jackyzha0">
+    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
+  </a>
+</p>
