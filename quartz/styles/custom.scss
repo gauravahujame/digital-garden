@@ -50,6 +50,17 @@ article > blockquote {
 }
 
 // ── Headings: Fraunces, tighter and more editorial ─────────────
+// Lighter than the Flexoki defaults (700 down to 600). Only 400 and 500
+// are loaded for Fraunces (see quartz-fonts in quartz.config.yaml), so
+// stick to those. The page and article titles follow --h1-weight.
+:root:root:root[saved-theme] {
+  --h1-weight: 500;
+  --h2-weight: 500;
+  --h3-weight: 500;
+  --h4-weight: 400;
+  --h5-weight: 400;
+  --h6-weight: 400;
+}
 h1,
 h2,
 h3,

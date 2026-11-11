@@ -58,8 +58,8 @@ plugins:
     enabled: true
     options:
       useThemeFonts: false
-      title: { name: Fraunces, weights: [600] }
-      header: { name: Fraunces, weights: [500, 600, 700] }
+      title: { name: Fraunces, weights: [500] }
+      header: { name: Fraunces, weights: [400, 500] }
       body: { name: Inter, weights: [400, 500, 600], includeItalic: true }
       code: { name: JetBrains Mono, weights: [400, 500] }
 
