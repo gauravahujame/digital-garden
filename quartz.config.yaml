@@ -9,8 +9,8 @@
 # Plugin options are only listed where they differ from the plugin defaults.
 
 configuration:
-  pageTitle: Gaurav's Garden
-  pageTitleSuffix: " · Gaurav's Garden"
+  pageTitle: The Rabbit Hole
+  pageTitleSuffix: " · The Rabbit Hole"
   enableSPA: true
   enablePopovers: true
   locale: en-US
@@ -38,15 +38,15 @@ configuration:
         highlight: rgba(124, 58, 237, 0.10)
         textHighlight: "#F6E2A088" # yellow-100
       darkMode:
-        light: "#100F0F" # black
-        lightgray: "#282726" # base-900
-        gray: "#575653" # base-700
-        darkgray: "#B7B5AC" # --ink-text, base-300
-        dark: "#E6E4D9" # --ink, base-100
-        secondary: "#A699D0" # accent, purple-300 (matches custom.scss)
-        tertiary: "#C4B9E0" # accent-strong, purple-200
-        highlight: rgba(166, 153, 208, 0.12)
-        textHighlight: "#AD8301AA" # yellow-600
+        light: "#111318"
+        lightgray: "#1C2029"
+        gray: "#343B49"
+        darkgray: "#B8BFCC"
+        dark: "#ECEEF3"
+        secondary: "#A5B4FC"
+        tertiary: "#C7D2FE"
+        highlight: rgba(165, 180, 252, 0.12)
+        textHighlight: "#A78BFA44"
 
 plugins:
   # ── Look and feel ─────────────────────────────────────────────
@@ -170,8 +170,8 @@ plugins:
   - source: "@quartz-community/explorer"
     enabled: true
     options:
-      title: Garden
-      folderDefaultState: open
+      title: Explore
+      folderDefaultState: closed
       folderClickBehavior: collapse
 
   # ── Above the article ─────────────────────────────────────────
