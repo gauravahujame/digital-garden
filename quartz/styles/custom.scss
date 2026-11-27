@@ -91,11 +91,9 @@
   --radius-pill: 999px; // tags, buttons, hints, scrollbar thumb
 
   // Elevation
-  --shadow-card:
-    0 10px 15px -3px var(--shadow-tint), 0 4px 6px -4px var(--shadow-tint);
+  --shadow-card: 0 10px 15px -3px var(--shadow-tint), 0 4px 6px -4px var(--shadow-tint);
   --shadow-media: 0 8px 30px -12px rgb(0 0 0 / 0.25);
-  --shadow-overlay:
-    0 30px 60px -20px rgb(0 0 0 / 0.35), 0 10px 20px -10px var(--shadow-tint);
+  --shadow-overlay: 0 30px 60px -20px rgb(0 0 0 / 0.35), 0 10px 20px -10px var(--shadow-tint);
 
   // Overlays: dimmed, blurred page behind search and the expanded graph,
   // and the frosted popover card.
@@ -166,6 +164,13 @@
   scroll-margin-top: 100vh;
 }
 
+// Leave enough room for the themed heading when the explorer is collapsed.
+@media all and not ($mobile) {
+  .explorer.collapsed {
+    flex-basis: 2rem;
+  }
+}
+
 // ── Page chrome: sidebars and breadcrumbs ───────────────────────
 // The theme gives these its interface font; use Bricolage at 450.
 :root:root:root[saved-theme] {
@@ -188,9 +193,92 @@
   margin-bottom: 1rem; // space between the path and the page title
 }
 
+.page-title a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--ink);
+}
+
+.page-title a::before {
+  content: "";
+  display: block;
+  width: 68px;
+  height: 75px;
+  flex: none;
+  background-color: currentColor;
+  mask: url("./static/logo.svg") center / contain no-repeat;
+}
+
+@media all and ($mobile) {
+  .page-title a {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .page-title a::before {
+    width: 28px;
+    height: 31px;
+  }
+}
+
 .page-title {
+  text-align: center;
   letter-spacing: -0.025em;
   word-spacing: 0.025em;
+}
+
+// The explorer opens a full-screen layer above the normal mobile header.
+// Lift the existing brand and section heading into that layer while open.
+@media all and ($mobile) {
+  // The mobile sidebar is sticky; give it an opaque surface so scrolled
+  // article text cannot show through its controls.
+  :root[saved-theme] body .page > #quartz-body .sidebar.left:has(.explorer) {
+    top: 0;
+    background-color: var(--light);
+  }
+
+  .page > #quartz-body .sidebar.left:has(.explorer:not(.collapsed)) > .page-title {
+    display: block;
+    position: absolute;
+    z-index: 101;
+    top: 1rem;
+    left: 3.5rem;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .page > #quartz-body .sidebar.left:has(.explorer:not(.collapsed)) > .page-title a {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .sidebar.left .explorer:not(.collapsed) button.desktop-explorer {
+    display: flex;
+    position: absolute;
+    z-index: 101;
+    top: 4.5rem;
+    left: 1rem;
+    font-size: 1rem;
+  }
+
+  .sidebar.left .explorer:not(.collapsed) button.desktop-explorer h2 {
+    font-size: 1rem;
+  }
+
+  .sidebar.left .explorer .explorer-content {
+    padding-top: 7rem;
+  }
+}
+
+// Quartz's default six-rem sidebar offset leaves too much blank space above
+// the emblem. Keep a modest inset while preserving the existing layout.
+@media all and ($desktop) {
+  .sidebar.left {
+    padding-top: 3rem;
+  }
 }
 
 // Type breakpoints (same as Tailwind `sm` and `lg`). Sizes below are written

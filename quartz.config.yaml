@@ -135,8 +135,6 @@ plugins:
       enableCaseRedirects: false
   - source: "@quartz-community/content-index"
     enabled: true
-  - source: "@quartz-community/favicon"
-    enabled: true
   - source: "@quartz-community/og-image"
     enabled: true
   - source: "@quartz-community/cname"

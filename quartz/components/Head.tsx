@@ -1,4 +1,3 @@
-import { i18n } from "../i18n"
 import { FullSlug, getFileExtension, joinSegments, pathToRoot } from "../util/path"
 import { CSSResourceToStyleElement, JSResourceToScriptElement } from "../util/resources"
 import { googleFontHref, googleFontSubsetHref } from "../util/theme"
@@ -13,19 +12,22 @@ export default (() => {
     ctx,
   }: QuartzComponentProps) => {
     const titleSuffix = cfg.pageTitleSuffix ?? ""
-    const title =
-      (fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title) + titleSuffix
+    const pageTitle = fileData.frontmatter?.title ?? cfg.pageTitle
+    const title = pageTitle === cfg.pageTitle ? pageTitle : pageTitle + titleSuffix
     const description =
       fileData.frontmatter?.socialDescription ??
       fileData.frontmatter?.description ??
-      unescapeHTML(fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description)
+      unescapeHTML(
+        fileData.description?.trim() ||
+          "An evolving collection of thoughts, experiments, half-formed ideas, and things I find disproportionately interesting.",
+      )
 
     const { css, js, additionalHead } = externalResources
 
     const url = new URL(`https://${cfg.baseUrl ?? "example.com"}`)
     const path = url.pathname as FullSlug
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
-    const iconPath = joinSegments(baseDir, "static/icon.png")
+    const iconPath = (name: string) => joinSegments(baseDir, `static/${name}`)
 
     // Url of current page
     const socialUrl =
@@ -68,7 +70,7 @@ export default (() => {
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="og:site_name" content={cfg.pageTitle}></meta>
+        <meta property="og:site_name" content={cfg.pageTitle}></meta>
         <meta property="og:title" content={title} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -97,7 +99,11 @@ export default (() => {
           </>
         )}
 
-        <link rel="icon" href={iconPath} />
+        <link rel="icon" type="image/svg+xml" href={iconPath("favicon.svg")} />
+        <link rel="icon" type="image/x-icon" href={iconPath("favicon.ico")} />
+        <link rel="icon" type="image/png" sizes="32x32" href={iconPath("favicon-32.png")} />
+        <link rel="icon" type="image/png" sizes="16x16" href={iconPath("favicon-16.png")} />
+        <link rel="apple-touch-icon" sizes="180x180" href={iconPath("apple-touch-icon.png")} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
 
