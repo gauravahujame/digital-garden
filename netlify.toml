@@ -3,3 +3,6 @@
 [build]
   command = "npx quartz plugin install && npx quartz build"
   publish = "public"
+
+[build.processing.html]
+  pretty_urls = true
