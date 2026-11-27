@@ -129,6 +129,10 @@ plugins:
     enabled: true
   - source: "@quartz-community/alias-redirects"
     enabled: true
+    options:
+      # Netlify normalizes URL casing, so generated case redirects can point
+      # back to the same redirect file and loop indefinitely.
+      enableCaseRedirects: false
   - source: "@quartz-community/content-index"
     enabled: true
   - source: "@quartz-community/favicon"
